@@ -1,0 +1,66 @@
+<html>
+<style>
+Div{
+position: absolute;
+width: 300px;
+height: 300px;
+border: 2px solid #636363;
+border-radius: 50%;
+margin: -150px;
+left: 50%;
+top: 50%;
+
+}
+SPAN{
+position: absolute;
+width: 20px;
+height: 300px;
+left: 140px;
+background-color: #000000;
+
+
+}
+
+#objHora{
+background: linear-gradient(#000000 60%, #ffffff 50%);
+    }
+#objMinuto{
+background: linear-gradient(#6c6c6c 40%, rgba(0,0,0,0) 60%);
+}
+#objSegundo{
+background: linear-gradient(#000000 10%, #ffffff 30%);
+width: 4%;
+
+</style>
+
+<body>
+<div>
+<span id="objHora"></span>
+<span id="objMinuto"></span>
+
+</div>
+</body>
+<script>
+function fnRetornaHora(nValor){
+return nValor * 30;
+}
+function fnRetornaMinuto(nValor){
+return nValor * 6;
+}
+
+var datinha = new Date();
+
+	window.onload = function () {
+		setTimeout('location.reload();', 20000);
+}
+
+	setInterval(function () { document.getElementById('objHora').style.transform
+		='rotate('+fnRetornaHora(datinha.getHours()) + 'deg)';}, 0);
+
+	setInterval(function(){document.getElementById('objMinuto').style.transform
+			='rotate('+fnRetornaMinuto(datinha.getMinutes()) + 'deg)';}, 0);
+
+
+
+</script>
+</html>

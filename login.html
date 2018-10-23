@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+    <style>
+        body{
+                background-color: #D3D3D3;
+            }
+            #login-box{
+                background-color: #D3D3D3;
+                width: 800px;
+                height: 500px;
+                margin: 140px auto 0px;
+                border-radius: 15px;
+            }
+            #login-box-interno{
+                width: 600px;
+                top:50px;
+                left: 30%;
+                height: 600px;
+                background-color: #fdfdfd;
+                position: absolute;
+                margin: 10px;
+                border-radius: 40px;
+                box-shadow: 0px 0px 1px ;
+                overflow: hidden;
+            }
+            #login-box-label{
+
+                height: 40px;
+                text-align:center;
+                font: bold 30px/40px sans-serif;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+
+
+                color:black;
+                text-shadow: 1px 0px 1px white;
+            }
+            .input-div{
+                margin: 5px;
+                padding: 10px;
+
+                border-radius: 3px;
+            }
+            .input-div input{
+                width: 310px;
+                height: 35px;
+                padding-left: 5px;
+                font: normal 13px sans-serif ;
+                color: #000;
+                border-radius: 3px;
+                border:1px solid #bfc4c6;
+                outline: none;
+            }
+            #input-senha {
+                margin-top:10px;
+
+            }
+            #botoes{
+                width: 310px;
+                margin-left: 25px;
+
+            }
+            #botao{
+             }
+            .botaologin{
+            text-shadow: 0px 1px 0px white;
+            border-radius: 3px;
+            padding: 5px 15px;
+            font: bold 20px sans-serif;
+            background-color: #778899;
+            position: relative;
+            width: 110%;
+            height: 8%;
+            position: relative;
+            left: 34%;
+            }
+            #login-box-label1{
+                height: 27px;
+                text-align:center;
+                font: bold 18px/45px sans-serif;
+                color:#555555;
+            }
+            #login-box-label2{
+                height: 20px;
+                text-align:center;
+                font: bold 18px/45px sans-serif;
+                color:#555555;
+                margin-top:-20px;
+            }
+        #texto{
+                height: 40px;
+                text-align:center;
+                font: bold 15px/40px sans-serif;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+        }
+       #senha{
+            left: 20%;
+            position: relative;
+            width: 60%;
+            height: 8%;
+        }
+        #e-mail{
+            left: 20%;
+            position: relative;
+            width: 60%;
+            height: 8%;
+        }
+
+    </style>
+    <head>
+    <meta charset="utf-8">
+    <title class="login-title">
+        Login
+    </title>
+    </head>
+    <body>
+    	<form action="telaDeLogin.php" method="POST">
+        <div id="login-box">
+            <div id="login-box-interno">
+                <h3 id="login-box-label">Login </h3>
+                <p id="texto"> Faça seu login para acessar seu caderno virtual</p>
+                <div class="input-div" id="input-usuario">
+                    <input type="text" id="e-mail" placeholder="Digite seu E-mail" value="" name="login"/>
+                </div>
+
+                <div class="input-div" id="input-senha">
+                    <input id="senha" type="password" placeholder="Digite sua senha" value="" name="senha"/>
+                </div>
+                <div id="botoes">
+                    <div  id="botao">
+                        <input class="botaologin" type="submit" value="ENTRAR">
+                    </div>
+
+                </div>
+                <a style="position: relative; left: 65%; " href="cadastro.html" >Cadastre-se </a>
+            </div>
+        </div>
+	</form>
+    </body>
+</html>
