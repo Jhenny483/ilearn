@@ -1,25 +1,32 @@
-<?php 
+<?php
 session_start();
-	require_once 'bancoDeDados.php';
-	$usr = $_SESSION['cod'];
+require_once 'bancoDeDados.php';
+$usr = $_SESSION['cod'];
 
-		if($usr == ""){
-			header('Location:login.html');
-		}
-		$banco = new BancoDeDados();
+if($usr == ""){
+	header('Location:login.html');
+}
 
-
-					$busca = "SELECT * FROM salvos WHERE idPerfil = '{$_SESSION['cod'][0]}' ORDER BY idSalvo DESC";
-			
-			$banco->abrirConexao();
-			$banco->executarSQL($busca);
-			$consulta =	$banco->lerResultados();
-			
-
-	
 
 ?>
 <!DOCTYPE html>
+<html>
+<style type="text/css">
+.divUsuario{
+		background-color: whitesmoke;
+		width: 15%;
+		height: 100%;
+		position: absolute;
+		left: 0%; 
+	}
+</style>
+<head>
+	<title>perfil</title>
+</head>
+<body>
+
+?>
+
 <html lang="pt-br">
 
 <head>
@@ -42,19 +49,7 @@ session_start();
 <body>
 
 
-    <!-- <div class="menu"> -->
 
-        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure reiciendis voluptates eligendi, neque delectus consectetur odio temporibus veniam autem, nemo similique voluptatem hic, ullam deleniti! Debitis rem, tenetur quam cumque.</p> -->
-    <!-- </div> -->
-
-
-    <div class="page-wrapper chiller-theme sidebar-bg bg1 toggled">
-        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
-            <i class="fa fa-bars"></i>
-        </a>
-
-
-     
     <div class="page-wrapper chiller-theme sidebar-bg bg1 toggled">
         <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
             <i class="fa fa-bars"></i>
@@ -128,7 +123,7 @@ session_start();
                         </li>
 
                         <li class="sidebar-dropdown">
-                            <a href="perfil.php">
+                            <a href="perfil.html">
                                 <i class="fa fa-user"></i>
                                 <span>Perfil</span>
                             </a>
@@ -144,6 +139,7 @@ session_start();
 
                     <a href="#" class="" id="dropdownMenuNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-bell"></i>
+
                     </a>
                     <div class="dropdown-menu notifications" aria-labelledby="dropdownMenuMessage">
                         <div class="notifications-header">
@@ -213,54 +209,78 @@ session_start();
                 </div>
             </div>
         </nav>
-
-
-        <!-- sidebar-wrapper  -->
-        <main class="page-content">
-            <div class="container-fluid">
-               <div class="col-md-12">
-               <div class="titulo"><h1>
-               	<?php
-               		if ($consulta == NULL) {
-						echo "<h1 style='text-align:center;'>" . "Voce nao possui textos salvos" . "</h1>";
-				} else {
-						echo "<h1 style='text-align:center;'>" . "Textos salvos" . "</h1>";
-					}?>
-</h1></div>
-               <div class="row">
-                   <div class="caixaNotificacao">
-                       
-			<?php
-
-				foreach ($consulta as $save) { ?>
-                       <div class="linhaNotificacao">
-								 
-				  		<p> <?= $save['usuarioSalvo'];?></p>
-						<p><?= $save['textoSalvo'];?></p>
-
-				 		<button><a href="telaRemoverSalvos.php?idsalvo=<?=$save['idSalvo'];?>" src="">remover</a>
-				 		</button>
-				 </div>
-				 <?php }
-
-
- ?> 
 	
-                         
-                       </div>
-                   </div>
-               </div>
-               
-               
-                </div></div>
-        </main>
-        <!-- page-content" -->
-    </div>
+<?php
 
-    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="lib/jquery/jquery.min.js"></script>
 
-    <script src="assets/js/custom.js"></script>
+		$busca = "SELECT emailUsuario FROM usuario WHERE idUsuario = '{$_GET['idUsu']}'";
+
+$banco = new BancoDeDados();
+$banco->abrirConexao();
+$banco->executarSQL($busca);
+$resBusca = $banco->lerResultados();
+
+		foreach ($resBusca as $perfil) { ?>
+			<div style="width: 1000px; background-color: grey; position: relative;left: 18%; height:100px;text-align: center;">
+			
+				<p><?=$perfil['emailUsuario'];?></p>
+			
+			</div>
+
+				<?php
+
+					$buscaPublicacoes = "SELECT emailUsuario, textoPublicacao, idPublicacao FROM usuario INNER JOIN publicacao ON usuario.idUsuario = publicacao.idUsuarioPublicacao WHERE usuario.idUsuario = '{$_GET['idUsu']}' ORDER BY idPublicacao DESC";
+
+					$banco->executarSQL($buscaPublicacoes);
+					$resPub = $banco->lerResultados();
+
+
+						foreach ($resPub as $publicacao) { ?>
+			
+					 		<div style="width: 1000px; height:flex; background-color: whitesmoke;border-bottom: 2px solid #000000;margin-bottom: 10px; position: relative;left: 18%;top: 70px; text-align: center;" class="linhaDoTempo">
+			
+									<input type="hidden" name="idPub" value="<?=$publicacao['idPublicacao'];?>">
+			
+									<br><label><?= $publicacao['emailUsuario']; ?></label>
+		 	
+		 							<p><?= $publicacao['textoPublicacao']; ?></p>
+		 					</div>
+		 							<?php 
+		 							
+		 				$buscaComentarios = "SELECT idComentario,comentarioPublicado, emailUsuario FROM comentario 
+							INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao 
+								INNER JOIN usuario ON comentario.idComentador = usuario.idUsuario 
+								WHERE publicacao.idPublicacao = '{$publicacao['idPublicacao']}'  ORDER BY comentarioPublicado DESC";
+
+		 									$banco->executarSQL($buscaComentarios);
+		 									$resCom = $banco->lerResultados();
+
+		 									foreach ($resCom as $comentario) { ?>
+		 	
+		 									<div style="width: 900px; height:80px; position:relative; 
+		 									left:22%; top: 65px; background-color: grey;border-top: 2px solid #000000;" class="linhaDoTempo">
+											
+		 										<p><?=$comentario['emailUsuario'];?></p>
+		 	
+		 										<p><?=$comentario['comentarioPublicado'];?></p>
+		 	
+	 									</div>
+
+							<?php } ?>
+
+
+
+				
+		<?php } 
+
+
+}
+
+// Notice: Array to string conversion in C:\Xampp\htdocs\TCC!ETEC\perfilOutroUsuario.php on line 56
+
+// Notice: Undefined index: emailUsuario in C:\Xampp\htdocs\TCC!ETEC\perfilOutroUsuario.php on line 46
+// Notice: Undefined index: emailUsuario in C:\Xampp\htdocs\TCC!ETEC\perfilOutroUsuario.php on line 59
+?>
+
 </body>
-
 </html>

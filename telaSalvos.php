@@ -28,7 +28,7 @@ $result = $banco->lerResultados();
 	$banco->executarSQL($insert);
 	$t = $banco->lerResultados();
 	
-	echo "<script language='javascript' type='text/javascript'>alert('Você salvou esse texto com sucesso, cheque sua area de salvos');window.location.href='index.php'</script>";
+	echo "<script language='javascript' type='text/javascript'>alert('Você salvou esse texto com sucesso, cheque sua area de salvos');window.location.href='telaIndex.php'</script>";
 } else {
 	echo 'erro';
 }

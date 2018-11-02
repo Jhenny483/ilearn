@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once 'bancoDeDados.php';
 
 
@@ -26,7 +25,7 @@ if($resultadosArr == true ){
 
 	session_start();
 	$_SESSION['cod'] = $cod[0];
-	header('Location:index.php');
+	header('Location:telaIndex.php');
 }else{
 	echo"<script language='javascript' type='text/javascript'>alert('login ou senha invalidos');window.location.href='login.html';</script>";
 

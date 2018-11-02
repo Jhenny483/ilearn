@@ -1,7 +1,6 @@
-<?php 
-require_once 'index.php';
+<?php
+session_start();
 session_destroy();
-$_SESSION;
+$_SESSION['cod'];
 header('Location:login.html');
-//TELA LOGOUT, PRA SAIR DO SITE AO CLICAR NO BOTAO 'SAIR'
 ?>

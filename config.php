@@ -13,8 +13,8 @@ $banco = new BancoDeDados();
 $banco->abrirConexao();
 
 $loginAlterar = trim( $_POST['loginAlterar']);
+
 $senhaAlterar = trim( $_POST['senhaAlterar']);
-$informacoesAlterar = trim( $_POST['informacoesAlterar']);
 
 $sql = "UPDATE usuario SET ";
 

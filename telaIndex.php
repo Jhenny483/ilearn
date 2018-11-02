@@ -1,25 +1,15 @@
-<?php 
+<?php
 session_start();
-	require_once 'bancoDeDados.php';
-	$usr = $_SESSION['cod'];
+require_once 'bancoDeDados.php';
+$usr = $_SESSION['cod'];
 
-		if($usr == ""){
-			header('Location:login.html');
-		}
-		$banco = new BancoDeDados();
-
-
-					$busca = "SELECT * FROM salvos WHERE idPerfil = '{$_SESSION['cod'][0]}' ORDER BY idSalvo DESC";
-			
-			$banco->abrirConexao();
-			$banco->executarSQL($busca);
-			$consulta =	$banco->lerResultados();
-			
-
-	
+if($usr == ""){
+    session_destroy();
+    header('Location:login.html');
+}
 
 ?>
-<!DOCTYPE html>
+
 <html lang="pt-br">
 
 <head>
@@ -42,19 +32,7 @@ session_start();
 <body>
 
 
-    <!-- <div class="menu"> -->
 
-        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure reiciendis voluptates eligendi, neque delectus consectetur odio temporibus veniam autem, nemo similique voluptatem hic, ullam deleniti! Debitis rem, tenetur quam cumque.</p> -->
-    <!-- </div> -->
-
-
-    <div class="page-wrapper chiller-theme sidebar-bg bg1 toggled">
-        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
-            <i class="fa fa-bars"></i>
-        </a>
-
-
-     
     <div class="page-wrapper chiller-theme sidebar-bg bg1 toggled">
         <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
             <i class="fa fa-bars"></i>
@@ -214,45 +192,119 @@ session_start();
             </div>
         </nav>
 
-
         <!-- sidebar-wrapper  -->
-        <main class="page-content">
+<main class="page-content">
             <div class="container-fluid">
-               <div class="col-md-12">
-               <div class="titulo"><h1>
-               	<?php
-               		if ($consulta == NULL) {
-						echo "<h1 style='text-align:center;'>" . "Voce nao possui textos salvos" . "</h1>";
-				} else {
-						echo "<h1 style='text-align:center;'>" . "Textos salvos" . "</h1>";
-					}?>
-</h1></div>
-               <div class="row">
-                   <div class="caixaNotificacao">
-                       
-			<?php
+                 <div class="row"> 
+            <div class="col-sm-12 col-md-12 primary ">
+                <form  method="POST" action="telaPublicacao.php" >
+                    <div class="card my-4">
+                        <div class="fazerPost">
+                            O que há de novo
+                        </div>
+                        <div class="fazerPostMensagem testePTColorgray">
 
-				foreach ($consulta as $save) { ?>
-                       <div class="linhaNotificacao">
-								 
-				  		<p> <?= $save['usuarioSalvo'];?></p>
-						<p><?= $save['textoSalvo'];?></p>
-
-				 		<button><a href="telaRemoverSalvos.php?idsalvo=<?=$save['idSalvo'];?>" src="">remover</a>
-				 		</button>
-				 </div>
-				 <?php }
+                            <textarea name="textoPublicacao" id="compartilhe" placeholder="compartilhe seu status"></textarea>
+                        </div>
+                        <div class="fazerPost  cinza-claro">
+                            
+                          
+                            <div class="fazerPostBotao">
+                                
+                                <input name="SendCadImg" type="submit" value="Enviar" class="btn btn-primary float-right">
+                            </div>
+                            
+                        </div>
+                    </div>
+                </form>   
 
 
- ?> 
-	
-                         
-                       </div>
-                   </div>
-               </div>
-               
-               
-                </div></div>
+                <?php   
+$banco = new BancoDeDados(); 
+
+        $texto = "SELECT * FROM publicacao INNER JOIN usuario ON publicacao.idUsuarioPublicacao = usuario.idUsuario ORDER BY idPublicacao DESC";
+
+        $coment = "SELECT * FROM comentario INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao ";
+
+$banco->abrirConexao();
+$banco->executarSQL($texto);
+$publicacoes = $banco->lerResultados();
+
+// $banco->executarSQL($coment);
+// $res = $banco->lerResultados();
+
+//TELA INDEX OU TELA PRINCIPAL, TIMELINE. ELE ENTRA AQUI SE O EMAIL E SENHA ESTIVEREM CERTOS
+?>
+
+<?php
+
+        foreach ($publicacoes as $pub) { ?>
+            <div style="width: 100%; height:flex; background-color: whitesmoke;border-bottom: 2px solid #000000;margin-bottom: 10px;" class="linhaDoTempo">
+                            
+                <button style="position: relative;left: 90%;top: 5%;">
+                       <a href="telaSalvos.php?nomeUsu=<?= $pub['emailUsuario']; ?>&textoPub=<?= $pub['textoPublicacao'];?> &idPub=<?=$pub['idPublicacao'];?> &idUsuPub=<?=$pub['idUsuario'];?>" src=""> salvar </a>
+               </button>
+                            
+                <br>
+                <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>" src="">           
+                    <label><?= $pub['emailUsuario'] ?></label></a>
+                    <p><?= $pub['textoPublicacao']; ?></p>
+                                <?php
+                                $coment = "SELECT idComentario,comentarioPublicado, emailUsuario FROM comentario 
+                                INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao 
+                                INNER JOIN usuario ON comentario.idComentador = usuario.idUsuario WHERE publicacao.idPublicacao = {$pub['idPublicacao']} ORDER BY idComentario ASC"; 
+                                
+                                $banco->executarSQL($coment);
+                                
+                                    $arrayComentarios = $banco->lerResultados();
+                                        foreach ($arrayComentarios as $comentario) { ?>
+                                                <div style="width: 100%; height:flex; background-color: whitesmoke;border-top: 2px solid #000000;" class="linhaDoTempo">
+                                            
+                                            <p> <?= $comentario['emailUsuario'];?> </p>
+                                            <p> <?=$comentario['comentarioPublicado'];?></p>
+                                    
+                                    </div>
+                                 
+                                 <?php } ?>
+                                
+                                    <form action="telaComentario.php" method="POST">
+                                            <input type="hidden" name="idPub" value="<?=$pub['idPublicacao'];?>">
+                                        
+                <div class="row" >
+                    <div class="caixaComentario" >
+                        <div class="comentarioCaixa">
+                            <textarea name="comentario" id="" ></textarea>
+                        </div>
+                        
+                        <div class="comentarioCaixaBtn">
+                            <button>Enviar</button>
+                        </div>
+
+                    </div>
+                </div>
+      </form>
+
+</div>
+                                
+<?php }  
+?>
+
+
+
+<?php
+    
+
+
+?>  
+
+
+                <hr>
+                
+                
+
+
+
+            </div>
         </main>
         <!-- page-content" -->
     </div>

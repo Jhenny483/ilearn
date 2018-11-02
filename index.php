@@ -4,6 +4,7 @@ require_once 'BancoDeDados.php';
 $usr = $_SESSION['cod'];
 
 if($usr == ""){
+
 	header('Location:login.html');
 }
 
@@ -27,9 +28,7 @@ if($usr == ""){
 		position: relative;
 		left:16%;
 	}
-	.config{
-		
-	}
+
 </style>
 	<head>
 		<title></title>		
@@ -64,11 +63,16 @@ if($usr == ""){
 <?php	
 $banco = new BancoDeDados(); 
 
-$texto = "SELECT * FROM publicacao INNER JOIN usuario ON publicacao.idUsuarioPublicacao = usuario.idUsuario ORDER BY idPublicacao DESC";
+		$texto = "SELECT * FROM publicacao INNER JOIN usuario ON publicacao.idUsuarioPublicacao = usuario.idUsuario ORDER BY idPublicacao DESC";
+
+		$coment = "SELECT * FROM comentario INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao ";
 
 $banco->abrirConexao();
 $banco->executarSQL($texto);
 $publicacoes = $banco->lerResultados();
+
+// $banco->executarSQL($coment);
+// $res = $banco->lerResultados();
 
 //TELA INDEX OU TELA PRINCIPAL, TIMELINE. ELE ENTRA AQUI SE O EMAIL E SENHA ESTIVEREM CERTOS
 ?>
@@ -76,26 +80,52 @@ $publicacoes = $banco->lerResultados();
 <?php
 
 		foreach ($publicacoes as $pub) { ?>
-			<div style="width: 1000px; height:flex; background-color: whitesmoke;border-bottom: 2px solid #000000;" class="linhaDoTempo">
+			<div style="width: 1000px; height:flex; background-color: whitesmoke;border-bottom: 2px solid #000000;margin-bottom: 10px;" class="linhaDoTempo">
 							
-				<br><label><?= $pub['emailUsuario'] ?></label>
+				<br>
+				<a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>" src=""> 
+					<label><?= $pub['emailUsuario'] ?></label></a>
 		 			<p><?= $pub['textoPublicacao']; ?></p>
-
+		 					
 		 						<button style="position: relative;left: 900px;top: -70px;">
-		 						<a href="telaSalvos.php?nomeUsu=<?= $pub['emailUsuario']; ?>&textoPub=<?= $pub['textoPublicacao'];?> &idPub=<?= $pub['idPublicacao'];?> &idUsuPub=<?=$pub['idUsuario'];?>" src=""> salvar </a>
-		 					</button> 
-
-
-				<input type="text" name="comentario" placeholder="digite um comentario" style="position: relative;top:0px;">
-				<button style="position: relative; top:0px;">
-				<a href="telaComentario.php" src="">enviar</a>
-				</button>
+		 						<a href="telaSalvos.php?nomeUsu=<?= $pub['emailUsuario']; ?>&textoPub=<?= $pub['textoPublicacao'];?> &idPub=<?=$pub['idPublicacao'];?> &idUsuPub=<?=$pub['idUsuario'];?>" src=""> salvar </a>
+		 					</button>
+								<?php
+								$coment = "SELECT idComentario,comentarioPublicado, emailUsuario FROM comentario 
+								INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao 
+								INNER JOIN usuario ON comentario.idComentador = usuario.idUsuario WHERE publicacao.idPublicacao = {$pub['idPublicacao']} ORDER BY idComentario ASC"; 
+								
+								$banco->executarSQL($coment);
+								
+									$arrayComentarios = $banco->lerResultados();
+										foreach ($arrayComentarios as $comentario) { ?>
+												<div style="width: 1000px; height:flex; background-color: whitesmoke;border-top: 2px solid #000000;" class="linhaDoTempo">
+											
+											<p> <?= $comentario['emailUsuario'];?> </p>
+											<p> <?=$comentario['comentarioPublicado'];?></p>
+									
+									</div>
+								 
+								 <?php } ?>
+								
+		 							<form action="telaComentario.php" method="POST">
+		 									<input type="hidden" name="idPub" value="<?=$pub['idPublicacao'];?>">
+		 									<input type="text" name="comentario">
+		 								<button>enviar</button>
+		 							</form>
 
 </div>
 					 			
 <?php }	 
 ?>
-				 	
+
+
+
+<?php
+	
+
+
+?>				 	
 
 </body>
 </html>

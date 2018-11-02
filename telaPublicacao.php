@@ -25,12 +25,11 @@ $banco->executarSQL($select);
 $arrayPostagem = $banco->lerResultados();
 
 
-
 if($arrayPostagem  > 0 ){
 
 	$banco->executarSQL($inserePublicacao);
 
-	header('Location:index.php');
+	header('Location:telaIndex.php');
 } else {
 	echo 'erro';
 }
@@ -57,5 +56,5 @@ echo "tudo joia";
 } else {
 	session_destroy();
 	echo "tudo errado";
-}
-?>-->
+}-->
+?>

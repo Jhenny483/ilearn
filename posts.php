@@ -12,7 +12,7 @@ if($usr == ""){
 
 
 
-		$sql = "SELECT * FROM publicacao INNER JOIN usuario ON idUsuarioPublicacao = idUsuario WHERE idUsuario = '{$_SESSION['cod'][0]}'";
+		$sql = "SELECT * FROM publicacao INNER JOIN usuario ON idUsuarioPublicacao = idUsuario WHERE idUsuario = '{$_SESSION['cod'][0]}' ORDER BY idPublicacao DESC";
 		// $busca = "SELECT textoPublicacao FROM publicacao";
 
 
@@ -56,6 +56,9 @@ if($usr == ""){
 	</div>
 
 	<?php 
+	if($try == NULL){
+		echo "<h1 style='text-align:center;'>" . "você não tem textos publicados" . "</h1>";
+	}
 
 			foreach ($try as $sucess )  {?>
 					<div style="width: 1000px; height:100px; position: relative; left:16%;background-color: whitesmoke; border-bottom: 2px solid #856523;">
