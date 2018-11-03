@@ -233,20 +233,43 @@ session_start();
 			<?php
 
 				foreach ($consulta as $save) { ?>
-                       <div class="linhaNotificacao">
-								 
-				  		<p> <?= $save['usuarioSalvo'];?></p>
-						<p><?= $save['textoSalvo'];?></p>
+                      
+             
+                <div class="card testePTColorgray my-4">
+                    <div class="mensagem">
+                            <div class="avatarMensagem">
+                                <img src="assets/img/avatar.png" class="rounded-circle" alt="">
+                            </div>
 
-				 		<button><a href="telaRemoverSalvos.php?idsalvo=<?=$save['idSalvo'];?>" src="">remover</a>
+                            <div class="nomeAvatarMensagem">
+                                <p class="text-preto">
+                        <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>">
+                                <?= $save['usuarioSalvo'];?>
+                                </p>
+                                
+                                </a> 
+
+                                <!-- <br>compartilhado em 00/00/0000</p> -->
+                            </div>
+                       
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text img">
+                            <p>
+                        <p><?= $save['textoSalvo'];?></p>
+                            </p>
+                        </div>
+                    </div>
+					
+						
+
+				 		<button style="width: 80px;"><a href="telaRemoverSalvos.php?idsalvo=<?=$save['idSalvo'];?>" src="">remover</a>
 				 		</button>
 				 </div>
 				 <?php }
 
 
- ?> 
-	
-                         
+ ?>                          
                        </div>
                    </div>
                </div>

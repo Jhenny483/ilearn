@@ -32,7 +32,6 @@ if($usr == ""){
 <body>
 
 
-
     <div class="page-wrapper chiller-theme sidebar-bg bg1 toggled">
         <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
             <i class="fa fa-bars"></i>
@@ -40,6 +39,7 @@ if($usr == ""){
 
 
         <nav id="sidebar" class="sidebar-wrapper">
+
             <div class="sidebar-content">
                 <div class="sidebar-brand">
                     <a href="#">Fechar menu</a>
@@ -239,18 +239,49 @@ $publicacoes = $banco->lerResultados();
 <?php
 
         foreach ($publicacoes as $pub) { ?>
-            <div style="width: 100%; height:flex; background-color: whitesmoke;border-bottom: 2px solid #000000;margin-bottom: 10px;" class="linhaDoTempo">
-                            
-                <button style="position: relative;left: 90%;top: 5%;">
+
+                
+                   <div class="card testePTColorgray my-4">
+                    <div class="mensagem">
+                        <button>
                        <a href="telaSalvos.php?nomeUsu=<?= $pub['emailUsuario']; ?>&textoPub=<?= $pub['textoPublicacao'];?> &idPub=<?=$pub['idPublicacao'];?> &idUsuPub=<?=$pub['idUsuario'];?>" src=""> salvar </a>
-               </button>
-                            
+                      </button>
+            
+                            <div class="avatarMensagem">
+                                <img src="assets/img/avatar.png" class="rounded-circle" alt="">
+                            </div>
+
+                            <div class="nomeAvatarMensagem">
+                                <p class="text-preto">
+                        <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>">
+                                <?= $pub['emailUsuario'];?>
+                                </p>
+                                
+                                </a> 
+
+                                <!-- <br>compartilhado em 00/00/0000</p> -->
+                            </div>
+                       
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text img">
+                            <p>
+                               <?=$pub['textoPublicacao'];?>
+                            </p>
+                        </div>
+                    </div>
+                  <!--   <div class="card fotoPost">
+                        <img src="assets/img/banner1-1.jpg" alt="">                    
+                    </div> -->
+                    <!-- <div class="botaoMensagem cinza-claro2 py-2">
+                        <button class="btn btn-primary"><i class="fas fa-thumbs-up"></i></button>
+                        <button class="btn btn-primary"><i class="fas fa-share"></i></button>
+                        <p class="ml-4 mt-1">10 curtidas </p>
+                        <p class=" mt-1"> 10 Comentarios</p>
+                    </div> -->                            
                 <br>
-                <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>" src="">           
-                    <label><?= $pub['emailUsuario'] ?></label></a>
-                    <p><?= $pub['textoPublicacao']; ?></p>
                                 <?php
-                                $coment = "SELECT idComentario,comentarioPublicado, emailUsuario FROM comentario 
+                                 $coment = "SELECT idComentario, comentarioPublicado, emailUsuario FROM comentario 
                                 INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao 
                                 INNER JOIN usuario ON comentario.idComentador = usuario.idUsuario WHERE publicacao.idPublicacao = {$pub['idPublicacao']} ORDER BY idComentario ASC"; 
                                 
@@ -258,21 +289,35 @@ $publicacoes = $banco->lerResultados();
                                 
                                     $arrayComentarios = $banco->lerResultados();
                                         foreach ($arrayComentarios as $comentario) { ?>
-                                                <div style="width: 100%; height:flex; background-color: whitesmoke;border-top: 2px solid #000000;" class="linhaDoTempo">
-                                            
-                                            <p> <?= $comentario['emailUsuario'];?> </p>
-                                            <p> <?=$comentario['comentarioPublicado'];?></p>
-                                    
-                                    </div>
-                                 
-                                 <?php } ?>
-                                
-                                    <form action="telaComentario.php" method="POST">
-                                            <input type="hidden" name="idPub" value="<?=$pub['idPublicacao'];?>">
-                                        
+                        <div class="mensagemPost">
+                        <div class="avatarMensagem">
+<!--                             <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>">
+ -->                            <!-- <img src="assets/img/avatar.png" class="rounded-circle" alt=""></a> -->
+                        </div>
+                        <div class="nomeAvatarMensagem">
+                            <!-- <a href="" -->
+                               <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>"> <p class="text-preto"><?=$comentario['emailUsuario'];?>
+                               <!-- <br> Compartilhado em 00/00/0000 -->
+                                </p></a>
+                            <!-- </a> -->
+                        </div>
+                        <div class="card-body">
+                            <div class="card-text clear">
+                                <p><?=$comentario['comentarioPublicado'];?></p>
+                                <p> Responder</p>
+                            </div>
+                        </div>
+                        </div>
+                                                            
+         <?php } ?>
+
+            <form action="telaComentario.php" method="POST">                  
                 <div class="row" >
                     <div class="caixaComentario" >
                         <div class="comentarioCaixa">
+                      
+                            <input type="hidden" name="idPub" value="<?=$pub['idPublicacao'];?>">
+                      
                             <textarea name="comentario" id="" ></textarea>
                         </div>
                         
@@ -283,7 +328,7 @@ $publicacoes = $banco->lerResultados();
                     </div>
                 </div>
       </form>
-
+    
 </div>
                                 
 <?php }  

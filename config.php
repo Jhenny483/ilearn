@@ -1,4 +1,4 @@
-<?php 
+'<?php 
 session_start();
 require_once 'bancoDeDados.php';
 $usr = $_SESSION['cod']['idUsuario'];
