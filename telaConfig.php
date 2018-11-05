@@ -74,10 +74,11 @@ deleniti! Debitis rem, tenetur quam cumque.</p>
                     </div>
                 </div>
                 <!-- sidebar-header  -->
+                <form action="telaPesquisaSQL.php" method="GET">        
                 <div class="sidebar-search">
                     <div>
                         <div class="input-group">
-                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                            <input type="text" name="pesquisa" class="form-control search-menu" placeholder="Buscar">
                             <div class="input-group-append">
                                 <span class="input-group-text">
                                     <i class="fa fa-search" aria-hidden="true"></i>
@@ -86,6 +87,8 @@ deleniti! Debitis rem, tenetur quam cumque.</p>
                         </div>
                     </div>
                 </div>
+         </form> 
+         
                 <!-- sidebar-search  -->
                 <div class="sidebar-menu">
                     <ul>

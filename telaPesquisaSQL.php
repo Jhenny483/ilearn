@@ -1,13 +1,34 @@
 <?php
 session_start();
-require_once 'BancoDeDados.php';
+require_once 'bancoDeDados.php';
 $usr = $_SESSION['cod'];
 
 if($usr == ""){
-    session_destroy();
-    header('Location:login.html');
+	header('Location:login.html');
 }
+	if(!isset($_GET['pesquisa'])){
+		header('Location:telaIndex.php');
+	}
 
+
+$pesquisa = $_GET['pesquisa'];
+
+	if(! $pesquisa == ""){
+
+		$sql = "SELECT emailUsuario, idUsuario, idPublicacao, textoPublicacao FROM usuario INNER JOIN publicacao ON publicacao.idUsuarioPublicacao = usuario.idUsuario WHERE emailUsuario LIKE '%".$pesquisa."%' OR textoPublicacao LIKE '%".$pesquisa."%' ORDER BY idUsuario";
+
+		$banco = new BancoDeDados();
+		$banco->abrirConexao();
+		$banco->executarSQL($sql);
+		$resPesquisa = $banco->lerResultados();
+
+		// var_dump($resPesquisa); 
+	} else {
+		echo "errO";
+}
+foreach ($resPesquisa as $result) {
+	$result['idUsuario'];
+}
 ?>
 
 <html lang="pt-br">
@@ -32,7 +53,6 @@ if($usr == ""){
 <body>
 
 
-
     <div class="page-wrapper chiller-theme sidebar-bg bg1 toggled">
         <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
             <i class="fa fa-bars"></i>
@@ -40,9 +60,10 @@ if($usr == ""){
 
 
         <nav id="sidebar" class="sidebar-wrapper">
+
             <div class="sidebar-content">
                 <div class="sidebar-brand">
-                    <a href="index.html">pro sidebar</a>
+                    <a href="#">Fechar menu</a>
                     <div id="close-sidebar">
                         <i class="fa fa-times"></i>
                     </div>
@@ -54,17 +75,16 @@ if($usr == ""){
                     <div class="user-info">
                         <span class="user-name"><?= $usr['emailUsuario'];?>
                 
-                        </span>
-                        <span class="user-role">Administrator</span>
-                        <span class="user-status">
+                                            
                         </span>
                     </div>
                 </div>
                 <!-- sidebar-header  -->
+         <form action="telaPesquisaSQL.php" method="GET">        
                 <div class="sidebar-search">
                     <div>
                         <div class="input-group">
-                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                            <input type="text" name="pesquisa" class="form-control search-menu" placeholder="Buscar">
                             <div class="input-group-append">
                                 <span class="input-group-text">
                                     <i class="fa fa-search" aria-hidden="true"></i>
@@ -73,42 +93,26 @@ if($usr == ""){
                         </div>
                     </div>
                 </div>
+         </form> 
                 <!-- sidebar-search  -->
                 <div class="sidebar-menu">
                     <ul>
-                        <li class="header-menu">
-                            <span>General</span>
-                        </li>
                         <li class="sidebar-dropdown">
-                            <a href="index.html">
+                            <a href="telaIndex.php">
                                 <i class="fa fa-user"></i>
                                 <span>Home</span>
                             </a>
                         </li>
                         <li class="sidebar-dropdown">
-                            <a href="#">
+                            <a href="telaConsultaSalvos.php">
                                 <i class="fa fa-tachometer-alt"></i>
                                 <span>Salvos</span>
-                                <span class="badge badge-pill badge-danger">New</span>
                             </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 1</span></a></li>
-                                    <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 2</span></a></li>
-                                    <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 3</span></a></li>
-                                    <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 4</span></a></li>
-                                    <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 5</span></a></li>
-                                    <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 6</span></a></li>
-                                    <li class="verTudo"><a href="salvos.html">VER TODAS SALVAS</a></li>
-                                    
-                                </ul>
-                            </div>
                         </li>
                         <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Notificação</span>
-                                <span class="badge badge-pill badge-primary">6</span>
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
@@ -125,18 +129,12 @@ if($usr == ""){
                         </li>
 
                         <li class="sidebar-dropdown">
-                            <a href="perfil.html">
+                            <a href="perfil.php">
                                 <i class="fa fa-user"></i>
                                 <span>Perfil</span>
                             </a>
                         </li>
                         
-                        <li class="sidebar-dropdown">
-                            <a href="blog.html">
-                                <i class="fa fa-user"></i>
-                                <span>Blog</span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 <!-- sidebar-menu  -->
@@ -147,7 +145,6 @@ if($usr == ""){
 
                     <a href="#" class="" id="dropdownMenuNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-bell"></i>
-                        <span class="badge badge-pill badge-warning notification">3</span>
                     </a>
                     <div class="dropdown-menu notifications" aria-labelledby="dropdownMenuMessage">
                         <div class="notifications-header">
@@ -202,7 +199,7 @@ if($usr == ""){
                 <div class="dropdown">
                     <a href="telaConfig.php" class="" id="dropdownMenuMessage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-cog"></i>
-                        <span class="badge-sonar"></span>
+
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuMessage">
                         <a class="dropdown-item" href="#">My profile</a>
@@ -217,98 +214,41 @@ if($usr == ""){
                 </div>
             </div>
         </nav>
+<?php
 
-        <!-- sidebar-wrapper  -->
-        <main class="page-content">
-            <div class="container-fluid">
-                <div class="container">
-                    <div class="col-12-md">
-                        <div class="row">
-                            <textarea name="" id="" cols="30" class="caixaPublicacao">
-                    
-                </textarea>
+
+ 		foreach ($resPesquisa as $res) { ?>
+	             <!-- <div style="position: relative;left: 25%;">  -->
+	               <img src="assets/img/user.jpg" alt="" style="width: 50px;">
+                   <a href="perfilOutroUsuario.php?idUsu=<?=$res['idUsuario'];?>&idPub=<?=$res['idPublicacao'];?>">
+                        <p><?= $res['emailUsuario'];?></p>
+                    </a> 
+                   
+                   <a href="telaSeguirSQL.php?idUsuario=<?=$res['idUsuario'];?> &nomeUsuario=<?=$res['emailUsuario'];?>" src="">
+                        <button>seguir</button></a>
+                                <p class="text-preto">
+                        <a href="perfilOutroUsuario.php?idUsu=<?=$res['idUsuario'];?>&idPub=<?=$res['idPublicacao'];?>">
+                                <?= $res['emailUsuario'];?>
+                                </p>
+                                
+                                </a> 
+                                <!-- <br>compartilhado em 00/00/0000</p> -->
+                    <div class="card-body">
+                        <div class="card-text img">
+                            <p>
+                        <p><?= $res['textoPublicacao'];?></p>
+                            </p>
                         </div>
                     </div>
-                </div>
-                <hr>
+			
+<!-- </div> -->
+          
+<?php
+		
 
-                <div class="post">
-                    <img src="assets/img/bg1.jpg" alt="">
-                </div>
-                <hr>
+	}
 
-                <div class="row">
-                    <div class="caixaComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
-                        </div>
-                        <div class="comentario">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto rerum, eum nemo veritatis accusantium dolore temporibus excepturi quis architecto doloribus magnam totam iste accusamus vel blanditiis? Id tempore dolore reprehenderit.</p>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="row my-4">
-                    <div class="caixaComentarioDoComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
-                        </div>
-                        <div class="comentario">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto rerum, eum nemo veritatis accusantium dolore temporibus excepturi quis architecto doloribus magnam totam iste accusamus vel blanditiis? Id tempore dolore reprehenderit.</p>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="row my-4">
-                    <div class="caixaComentarioDoComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
-                        </div>
-                        <div class="comentario">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto rerum, eum nemo veritatis accusantium dolore temporibus excepturi quis architecto doloribus magnam totam iste accusamus vel blanditiis? Id tempore dolore reprehenderit.</p>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="caixaComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
-                        </div>
-                        <div class="comentario">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto rerum, eum nemo veritatis accusantium dolore temporibus excepturi quis architecto doloribus magnam totam iste accusamus vel blanditiis? Id tempore dolore reprehenderit.</p>
-                        </div>
-
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="caixaComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
-                        </div>
-                        <div class="comentarioCaixa">
-                            <textarea name="" id="" ></textarea>
-                        </div>
-                        
-                        <div class="comentarioCaixaBtn">
-                            <button>Enviar</button>
-                        </div>
-
-                    </div>
-                </div>
-                
-                
-
-
-
-            </div>
-        </main>
-        <!-- page-content" -->
-    </div>
-
+?>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="lib/jquery/jquery.min.js"></script>
 

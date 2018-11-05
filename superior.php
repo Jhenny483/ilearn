@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style-1.css">
 
 
     <link rel="stylesheet" href="assets/css/custom.css">
@@ -18,14 +19,6 @@
 </head>
 
 <body>
-
-<!--
-    <div class="menu">
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure reiciendis voluptates eligendi, neque delectus consectetur odio temporibus veniam autem, nemo similique voluptatem hic, ullam deleniti! Debitis rem, tenetur quam cumque.</p>
-    </div>
--->
-
     <div class="page-wrapper chiller-theme sidebar-bg bg1 toggled">
         <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
             <i class="fa fa-bars"></i>
@@ -35,7 +28,7 @@
         <nav id="sidebar" class="sidebar-wrapper">
             <div class="sidebar-content">
                 <div class="sidebar-brand">
-                    <a href="index.html">pro sidebar</a>
+                    <a href="index.php">pro sidebar</a>
                     <div id="close-sidebar">
                         <i class="fa fa-times"></i>
                     </div>
@@ -75,7 +68,7 @@
                             <span>General</span>
                         </li>
                         <li class="sidebar-dropdown">
-                            <a href="index.html">
+                            <a href="index.php">
                                 <i class="fa fa-user"></i>
                                 <span>Home</span>
                             </a>
@@ -94,7 +87,7 @@
                                     <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 4</span></a></li>
                                     <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 5</span></a></li>
                                     <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 6</span></a></li>
-                                   <li class="verTudo"><a href="salvos.html">VER TODAS SALVAS</a></li>
+                                   <li class="verTudo"><a href="salvos.php">VER TODAS SALVAS</a></li>
                                     
                                 </ul>
                             </div>
@@ -113,21 +106,21 @@
                                     <li><a href="#">Notificação - 4</a></li>
                                     <li><a href="#">Notificação - 5</a></li>
                                     <li><a href="#">Notificação - 6</a></li>
-                                    <li class="verTudo"><a href="notificacao.html">VER TODAS NOTIFICAÇÕES</a></li>
+                                    <li class="verTudo"><a href="notificacao.php">VER TODAS NOTIFICAÇÕES</a></li>
                                     
                                 </ul>
                             </div>
                         </li>
 
                         <li class="sidebar-dropdown">
-                            <a href="perfil.html">
+                            <a href="perfil.php">
                                 <i class="fa fa-user"></i>
                                 <span>Perfil</span>
                             </a>
                         </li>
                         
                         <li class="sidebar-dropdown">
-                            <a href="blog.html">
+                            <a href="blog.php">
                                 <i class="fa fa-user"></i>
                                 <span>Blog</span>
                             </a>
@@ -212,118 +205,4 @@
                 </div>
             </div>
         </nav>
-
-        <!-- sidebar-wrapper  -->
-        <main class="page-content">
-            <div class="container-fluid">
-               <div class="col-md-12">
-                  <div class="titulo"><h1>Perfil</h1></div>
-                <div class="bannerUser">
-                    <img src="assets/img/bg2.jpg" alt="">
-                </div>
-               
-                
-                <div class="fotoUser">
-                    <img src="assets/img/user.jpg" alt="">
-                </div>
-            </div>
-             </div>
-             
-             <div class="col-md-12">
-                 <div class="caixaInformacaoUsuario">
-                     
-                     
-                 </div>
-                 
-             </div>
-            
-            
-             <div class="container">
-                    <div class="col-12-md">
-                        <div class="row">
-                            <textarea name="" id="" cols="30" class="caixaPublicacao">
-                    
-                </textarea>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-
-                <div class="post">
-                    <img src="assets/img/bg1.jpg" alt="">
-                </div>
-                <hr>
-
-                <div class="row">
-                    <div class="caixaComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
-                        </div>
-                        <div class="comentario">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto rerum, eum nemo veritatis accusantium dolore temporibus excepturi quis architecto doloribus magnam totam iste accusamus vel blanditiis? Id tempore dolore reprehenderit.</p>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="row my-4">
-                    <div class="caixaComentarioDoComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
-                        </div>
-                        <div class="comentario">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto rerum, eum nemo veritatis accusantium dolore temporibus excepturi quis architecto doloribus magnam totam iste accusamus vel blanditiis? Id tempore dolore reprehenderit.</p>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="row my-4">
-                    <div class="caixaComentarioDoComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
-                        </div>
-                        <div class="comentario">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto rerum, eum nemo veritatis accusantium dolore temporibus excepturi quis architecto doloribus magnam totam iste accusamus vel blanditiis? Id tempore dolore reprehenderit.</p>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="caixaComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
-                        </div>
-                        <div class="comentario">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto rerum, eum nemo veritatis accusantium dolore temporibus excepturi quis architecto doloribus magnam totam iste accusamus vel blanditiis? Id tempore dolore reprehenderit.</p>
-                        </div>
-
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="caixaComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
-                        </div>
-                        <div class="comentarioCaixa">
-                            <textarea name="" id="" ></textarea>
-                        </div>
-                        
-                        <div class="comentarioCaixaBtn">
-                            <button>Enviar</button>
-                        </div>
-
-                    </div>
-                </div>
-        </main>
-        <!-- page-content" -->
-    </div>
-
-    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="lib/jquery/jquery.min.js"></script>
-
-    <script src="assets/js/custom.js"></script>
-</body>
-
-</html>
+    

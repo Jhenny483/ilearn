@@ -1,4 +1,17 @@
-<html lang="pt-br">
+<?php
+session_start();
+require_once 'bancoDeDados.php';
+$usr = $_SESSION['cod'];
+
+if($usr == ""){
+	header('Location:login.html');
+}
+
+
+?>
+<!DOCTYPE html>
+<html>
+
 
 <head>
     <meta charset="utf-8">
@@ -20,7 +33,6 @@
 <body>
 
 
-
     <div class="page-wrapper chiller-theme sidebar-bg bg1 toggled">
         <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
             <i class="fa fa-bars"></i>
@@ -28,9 +40,10 @@
 
 
         <nav id="sidebar" class="sidebar-wrapper">
+
             <div class="sidebar-content">
                 <div class="sidebar-brand">
-                    <a href="index.html">pro sidebar</a>
+                    <a href="#">Fechar menu</a>
                     <div id="close-sidebar">
                         <i class="fa fa-times"></i>
                     </div>
@@ -40,21 +53,17 @@
                         <img class="img-responsive img-rounded" src="assets/img/user.jpg" alt="User picture">
                     </div>
                     <div class="user-info">
-                        <span class="user-name">Jhon
-                            <strong>Smith</strong>
-                        </span>
-                        <span class="user-role">Administrator</span>
-                        <span class="user-status">
-                            <i class="fa fa-circle"></i>
-                            <span>Online</span>
+                        <span class="user-name">
+                            <?= $usr['emailUsuario'];?>
                         </span>
                     </div>
                 </div>
                 <!-- sidebar-header  -->
+                 <form action="telaPesquisaSQL.php" method="GET">        
                 <div class="sidebar-search">
                     <div>
                         <div class="input-group">
-                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                            <input type="text" name="pesquisa" class="form-control search-menu" placeholder="Buscar">
                             <div class="input-group-append">
                                 <span class="input-group-text">
                                     <i class="fa fa-search" aria-hidden="true"></i>
@@ -63,42 +72,27 @@
                         </div>
                     </div>
                 </div>
+         </form> 
+         
                 <!-- sidebar-search  -->
                 <div class="sidebar-menu">
                     <ul>
-                        <li class="header-menu">
-                            <span>General</span>
-                        </li>
                         <li class="sidebar-dropdown">
-                            <a href="index.html">
+                            <a href="telaIndex.php">
                                 <i class="fa fa-user"></i>
                                 <span>Home</span>
                             </a>
                         </li>
                         <li class="sidebar-dropdown">
-                            <a href="#">
+                            <a href="telaConsultaSalvos.php">
                                 <i class="fa fa-tachometer-alt"></i>
                                 <span>Salvos</span>
-                                <span class="badge badge-pill badge-danger">New</span>
                             </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 1</span></a></li>
-                                    <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 2</span></a></li>
-                                    <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 3</span></a></li>
-                                    <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 4</span></a></li>
-                                    <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 5</span></a></li>
-                                    <li><a href="#">Salvos<span class="badge badge-pill badge-success">- 6</span></a></li>
-                                   <li class="verTudo"><a href="salvos.html">VER TODAS SALVAS</a></li>
-                                    
-                                </ul>
-                            </div>
                         </li>
                         <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Notificação</span>
-                                <span class="badge badge-pill badge-primary">6</span>
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
@@ -121,12 +115,6 @@
                             </a>
                         </li>
                         
-                        <li class="sidebar-dropdown">
-                            <a href="blog.html">
-                                <i class="fa fa-user"></i>
-                                <span>Blog</span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 <!-- sidebar-menu  -->
@@ -137,7 +125,7 @@
 
                     <a href="#" class="" id="dropdownMenuNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-bell"></i>
-                        <span class="badge badge-pill badge-warning notification">3</span>
+
                     </a>
                     <div class="dropdown-menu notifications" aria-labelledby="dropdownMenuMessage">
                         <div class="notifications-header">
@@ -190,9 +178,9 @@
 
 
                 <div class="dropdown">
-                    <a href="#" class="" id="dropdownMenuMessage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a href="telaConfig.php" class="" id="dropdownMenuMessage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-cog"></i>
-                        <span class="badge-sonar"></span>
+
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuMessage">
                         <a class="dropdown-item" href="#">My profile</a>
@@ -201,86 +189,147 @@
                     </div>
                 </div>
                 <div>
-                    <a href="#">
+                    <a href="logOut.php">
                         <i class="fa fa-power-off"></i>
                     </a>
                 </div>
             </div>
         </nav>
+	
+<?php
 
-        <!-- sidebar-wrapper  -->
-        <main class="page-content">
+
+		$busca = "SELECT emailUsuario FROM usuario WHERE idUsuario = '{$_GET['idUsu']}'";
+
+$banco = new BancoDeDados();
+$banco->abrirConexao();
+$banco->executarSQL($busca);
+$resBusca = $banco->lerResultados();
+
+		foreach ($resBusca as $perfil) { ?>
+			  <main class="page-content">
             <div class="container-fluid">
-                <div class="container">
+               <div class="col-md-12">
+                  <div class="titulo"><h1>Perfil</h1></div>
+                <div class="bannerUser">
+                    <img src="assets/img/bg2.jpg" alt="">
+                </div>
+               
+                
+                <div class="fotoUser">
+                    <img src="assets/img/user.jpg" alt="">
+                    <p><?= $perfil['emailUsuario'];?></p>
+                </div>
+            </div>
+             </div>
+             
+             <div class="col-md-12">
+                 <div class="caixaInformacaoUsuario">
+                     
+                     
+                 </div>
+                 
+             </div>
+            
+            
+             <div class="container">
                     <div class="col-12-md">
                         <div class="row">
-                            <textarea name="" id="" cols="30" class="caixaPublicacao">
-                    
+                            <textarea name="" id="" cols="30" class="caixaPublicacao" placeholder="digite um texto">
                 </textarea>
                         </div>
                     </div>
-                </div>
-                <hr>
+                </div>			
+			</div>
 
-                <div class="post">
-                    <img src="assets/img/bg1.jpg" alt="">
-                </div>
-                <hr>
+				<?php
 
-                <div class="row">
-                    <div class="caixaComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
-                        </div>
-                        <div class="comentario">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto rerum, eum nemo veritatis accusantium dolore temporibus excepturi quis architecto doloribus magnam totam iste accusamus vel blanditiis? Id tempore dolore reprehenderit.</p>
-                        </div>
+					$buscaPublicacoes = "SELECT emailUsuario, textoPublicacao, idPublicacao FROM usuario INNER JOIN publicacao ON usuario.idUsuario = publicacao.idUsuarioPublicacao WHERE usuario.idUsuario = '{$_GET['idUsu']}' ORDER BY idPublicacao DESC";
 
+					$banco->executarSQL($buscaPublicacoes);
+					$resPub = $banco->lerResultados();
+
+
+						foreach ($resPub as $publicacao) { ?>
+			
+                   <div class="card testePTColorgray my-4">
+                    <div class="mensagem">
+                
+                        <button>
+                            <a href="telaExcluir.php?idpub=<?= $perfil['idPublicacao']; ?>&idUsuario=<?= $perfil['idUsuario']; ?>" src="" >excluir</a>
+                        </button>
+
+                            <div class="avatarMensagem">
+                                <img src="assets/img/avatar.png" class="rounded-circle" alt="">
+                            </div>
+
+                            <div class="nomeAvatarMensagem">
+                                <p class="text-preto">
+                       
+                                <?= $publicacao['emailUsuario'];?>
+                                </p>
+                            
+                                <!-- <br>compartilhado em 00/00/0000</p> -->
+                            </div>
+                       
                     </div>
-                </div>
-                <div class="row my-4">
-                    <div class="caixaComentarioDoComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
+                    <div class="card-body">
+                        <div class="card-text img">
+                            <p>
+                               <?=$publicacao['textoPublicacao'];?>
+                            </p>
                         </div>
-                        <div class="comentario">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto rerum, eum nemo veritatis accusantium dolore temporibus excepturi quis architecto doloribus magnam totam iste accusamus vel blanditiis? Id tempore dolore reprehenderit.</p>
-                        </div>
-
                     </div>
-                </div>
+   
+									<input type="hidden" name="idPub" value="<?=$publicacao['idPublicacao'];?>">
+			
+									</div>
+		    
 
-                <div class="row my-4">
-                    <div class="caixaComentarioDoComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
+              <?php
+                  
+                                 $coment = "SELECT idComentario, comentarioPublicado, emailUsuario, idPublicacao, idUsuario FROM comentario 
+                                INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao 
+                                INNER JOIN usuario ON comentario.idComentador = usuario.idUsuario WHERE publicacao.idPublicacao = {$publicacao['idPublicacao']} ORDER BY idComentario ASC"; 
+                                
+                                $banco->executarSQL($coment);
+                                
+                                    $arrayComentarios = $banco->lerResultados();
+                                 
+                                        foreach ($arrayComentarios as $comentario) { ?>
+                        
+                        <div class="mensagemPost">
+                        <div class="avatarMensagem">
+<!--                             <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>">
+ -->                          
+          <!-- <img src="assets/img/avatar.png" class="rounded-circle" alt=""></a> -->
                         </div>
-                        <div class="comentario">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto rerum, eum nemo veritatis accusantium dolore temporibus excepturi quis architecto doloribus magnam totam iste accusamus vel blanditiis? Id tempore dolore reprehenderit.</p>
+                        <div class="nomeAvatarMensagem">
+                            <!-- <a href="" -->
+                               <a href="perfilUsuarioAleatorio.php?idUsu=<?=$comentario['idUsuario'];?>&idPub=<?=$comentario['idPublicacao'];?>"> <p class="text-preto"><?=$comentario['emailUsuario'];?>
+                               <!-- <br> Compartilhado em 00/00/0000 -->
+                                </p></a>
+                            <!-- </a> -->
+                        </div>
+                        <div class="card-body">
+                            <div class="card-text clear">
+                                <p><?=$comentario['comentarioPublicado'];?></p>
+
+                            </div>
+                        </div>
                         </div>
 
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="caixaComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
-                        </div>
-                        <div class="comentario">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto rerum, eum nemo veritatis accusantium dolore temporibus excepturi quis architecto doloribus magnam totam iste accusamus vel blanditiis? Id tempore dolore reprehenderit.</p>
-                        </div>
-
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="caixaComentario">
-                        <div class="fotoPerfilComentario">
-                            <img src="assets/img/user.jpg" alt="">
-                        </div>
+         <?php } ?>
+  
+  <form action="telaComentario.php" method="POST">                  
+                <div class="row" >
+                    <div class="caixaComentario" >
                         <div class="comentarioCaixa">
-                            <textarea name="" id="" ></textarea>
+                      
+                            <input type="hidden" name="idPub" value="<?=$pub['idPublicacao'];?>">
+                      
+                            <textarea name="comentario" id="" placeholder="digite um comentario"></textarea>
                         </div>
                         
                         <div class="comentarioCaixaBtn">
@@ -289,16 +338,23 @@
 
                     </div>
                 </div>
-                
-                
+      </form>   
+
+                            <?php } ?> 
+
+
+ <!-- Notice: Undefined index: textoPublicacao in C:\Xampp\htdocs\ilearn\perfilUsuarioAleatorio.php on line 289 -->
+				
+		
+ <?php } 
 
 
 
-            </div>
-        </main>
-        <!-- page-content" -->
-    </div>
+// Notice: Array to string conversion in C:\Xampp\htdocs\TCC!ETEC\perfilOutroUsuario.php on line 56
 
+// Notice: Undefined index: emailUsuario in C:\Xampp\htdocs\TCC!ETEC\perfilOutroUsuario.php on line 46
+// Notice: Undefined index: emailUsuario in C:\Xampp\htdocs\TCC!ETEC\perfilOutroUsuario.php on line 59
+?>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="lib/jquery/jquery.min.js"></script>
 

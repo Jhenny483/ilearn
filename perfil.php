@@ -15,17 +15,9 @@ if($usr == ""){
 
 
 <style type="text/css">
-.divUsuario{
-		background-color: whitesmoke;
-		width: 15%;
-		height: 100%;
-		position: absolute;
-		left: 0%; 
-	}
 </style>
+
 <head>
-	
-	<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -40,10 +32,10 @@ if($usr == ""){
     <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="assets/css/custom-themes.css">
     <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
-
-	<title>perfil</title>
 </head>
+
 <body>
+
 
     <div class="page-wrapper chiller-theme sidebar-bg bg1 toggled">
         <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
@@ -52,6 +44,7 @@ if($usr == ""){
 
 
         <nav id="sidebar" class="sidebar-wrapper">
+
             <div class="sidebar-content">
                 <div class="sidebar-brand">
                     <a href="#">Fechar menu</a>
@@ -71,10 +64,11 @@ if($usr == ""){
                     </div>
                 </div>
                 <!-- sidebar-header  -->
+                <form action="telaPesquisaSQL.php" method="GET">        
                 <div class="sidebar-search">
                     <div>
                         <div class="input-group">
-                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                            <input type="text" name="pesquisa" class="form-control search-menu" placeholder="Buscar">
                             <div class="input-group-append">
                                 <span class="input-group-text">
                                     <i class="fa fa-search" aria-hidden="true"></i>
@@ -83,6 +77,8 @@ if($usr == ""){
                         </div>
                     </div>
                 </div>
+         </form> 
+         
                 <!-- sidebar-search  -->
                 <div class="sidebar-menu">
                     <ul>
@@ -204,9 +200,50 @@ if($usr == ""){
             </div>
         </nav>
 
+   <main class="page-content">
+            <div class="container-fluid">
+               <div class="col-md-12">
+                  <div class="titulo"><h1>Perfil</h1></div>
+                <div class="bannerUser">
+                    <img src="assets/img/bg2.jpg" alt="">
+                </div>
+               
+                
+                <div class="fotoUser">
+                    <img src="assets/img/user.jpg" alt="">
+                    <p><?= $usr['emailUsuario'];?></p>
+
+                </div>
+            </div>
+             </div>
+             
+             <div class="col-md-12">
+                 <div class="caixaInformacaoUsuario">
+                     
+                     
+                 </div>
+                 
+             </div>
+            
+            
+             <div class="container">
+                    <div class="col-12-md">
+                        <div class="row">
+                            <textarea name="" id="" cols="30" class="caixaPublicacao" placeholder="digite um texto">
+                </textarea>
+                        </div>
+                    </div>
+                </div>
+                
+        <!-- page-content" -->
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="lib/jquery/jquery.min.js"></script>
+
+    <script src="assets/js/custom.js"></script>
+
 	
 <?php
-$selectUsu= "SELECT emailUsuario, textoPublicacao FROM usuario INNER JOIN publicacao ON usuario.idUsuario = publicacao.idUsuarioPublicacao WHERE usuario.idUsuario  = '{$_SESSION['cod'][0]}' ORDER BY idPublicacao DESC";
+$selectUsu= "SELECT emailUsuario, textoPublicacao, idPublicacao, idUsuario FROM usuario INNER JOIN publicacao ON usuario.idUsuario = publicacao.idUsuarioPublicacao WHERE usuario.idUsuario  = '{$_SESSION['cod'][0]}' ORDER BY idPublicacao DESC";
 
 
 		$banco = new BancoDeDados();
@@ -217,12 +254,97 @@ $selectUsu= "SELECT emailUsuario, textoPublicacao FROM usuario INNER JOIN public
 
 		
 			foreach ($resUsu as $perfil) { ?>
-			<div style="position:relative; left: 20%;">
-				<p> <?=$perfil['emailUsuario'];?> </p>
-				<p> <?=$perfil['textoPublicacao'];?> </p>
-			
-			</div>
-			<?php	}
+
+                   <div class="card testePTColorgray my-4">
+                    <div class="mensagem">
+                <button>
+                    <a href="telaExcluir.php?idpub=<?= $perfil['idPublicacao']; ?>&idUsuario=<?= $perfil['idUsuario']; ?>" src="" >excluir</a>
+                </button>
+                
+            
+                            <div class="avatarMensagem">
+                                <img src="assets/img/avatar.png" class="rounded-circle" alt="">
+                            </div>
+                            <div class="nomeAvatarMensagem">
+                                <p class="text-preto">
+                       
+                                <?= $perfil['emailUsuario'];?>
+                                </p>
+                            
+                                <!-- <br>compartilhado em 00/00/0000</p> -->
+                            </div>
+                       
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text img">
+                            <p>
+                               <?=$perfil['textoPublicacao'];?>
+                            </p>
+                        </div>
+                    </div>
+                  <!--   <div class="card fotoPost">
+                        <img src="assets/img/banner1-1.jpg" alt="">                    
+                    </div> -->
+                    <!-- <div class="botaoMensagem cinza-claro2 py-2">
+                        <button class="btn btn-primary"><i class="fas fa-thumbs-up"></i></button>
+                        <button class="btn btn-primary"><i class="fas fa-share"></i></button>
+                        <p class="ml-4 mt-1">10 curtidas </p>
+                        <p class=" mt-1"> 10 Comentarios</p>
+                    </div> -->                            
+                <br>
+                                <?php
+                                 $coment = "SELECT idComentario, comentarioPublicado, emailUsuario, idPublicacao, idUsuario FROM comentario 
+                                INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao 
+                                INNER JOIN usuario ON comentario.idComentador = usuario.idUsuario WHERE publicacao.idPublicacao = {$perfil['idPublicacao']} ORDER BY idComentario ASC"; 
+                                
+                                $banco->executarSQL($coment);
+                                
+                                    $arrayComentarios = $banco->lerResultados();
+                                        foreach ($arrayComentarios as $comentario) { ?>
+                        <div class="mensagemPost">
+                        <div class="avatarMensagem">
+<!--                             <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>">
+ -->                            <!-- <img src="assets/img/avatar.png" class="rounded-circle" alt=""></a> -->
+                        </div>
+                        <div class="nomeAvatarMensagem">
+                            <!-- <a href="" -->
+                               <a href="perfilUsuarioAleatorio.php?idUsu=<?=$comentario['idUsuario'];?>&idPub=<?=$comentario['idPublicacao'];?>"> <p class="text-preto"><?=$comentario['emailUsuario'];?>
+                               <!-- <br> Compartilhado em 00/00/0000 -->
+                                </p></a>
+                            <!-- </a> -->
+                        </div>
+                        <div class="card-body">
+                            <div class="card-text clear">
+                                <p><?=$comentario['comentarioPublicado'];?></p>
+            
+                            </div>
+                        </div>
+                        </div>
+                                                            
+         <?php } ?>
+
+            <form action="telaComentarioPerfil.php" method="POST">                  
+                <div class="row" >
+                    <div class="caixaComentario" >
+                        <div class="comentarioCaixa">
+                      
+                            <input type="hidden" name="idPub" value="<?=$comentario['idPublicacao'];?>">
+                      
+                            <textarea name="comentario" id="" placeholder="digite um comentario"></textarea>
+                        </div>
+                        
+                        <div class="comentarioCaixaBtn">
+                            <button>Enviar</button>
+                        </div>
+
+                    </div>
+                </div>
+      </form>
+    
+</div>
+                                
+<?php }  
+
 
 
 
@@ -230,5 +352,10 @@ $selectUsu= "SELECT emailUsuario, textoPublicacao FROM usuario INNER JOIN public
 // array(1) { [0]=> array(8) { ["idUsuario"]=> string(2) "97" [0]=> string(2) "97" ["senhaUsuario"]=> string(5) "TESTE" [1]=> string(5) "TESTE" ["emailUsuario"]=> string(8) "humberto" [2]=> string(8) "humberto" ["cpfUsuario"]=> string(3) "000" [3]=> string(3) "000" } }
 
 ?>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="lib/jquery/jquery.min.js"></script>
+
+    <script src="assets/js/custom.js"></script>
 </body>
+
 </html>

@@ -59,10 +59,11 @@ if($usr == ""){
                     </div>
                 </div>
                 <!-- sidebar-header  -->
+         <form action="telaPesquisaSQL.php" method="GET">        
                 <div class="sidebar-search">
                     <div>
                         <div class="input-group">
-                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                            <input type="text" name="pesquisa" class="form-control search-menu" placeholder="Buscar">
                             <div class="input-group-append">
                                 <span class="input-group-text">
                                     <i class="fa fa-search" aria-hidden="true"></i>
@@ -71,6 +72,7 @@ if($usr == ""){
                         </div>
                     </div>
                 </div>
+         </form> 
                 <!-- sidebar-search  -->
                 <div class="sidebar-menu">
                     <ul>
@@ -222,9 +224,11 @@ if($usr == ""){
                 <?php   
 $banco = new BancoDeDados(); 
 
-        $texto = "SELECT * FROM publicacao INNER JOIN usuario ON publicacao.idUsuarioPublicacao = usuario.idUsuario ORDER BY idPublicacao DESC";
-
-        $coment = "SELECT * FROM comentario INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao ";
+        $texto = "SELECT textoPublicacao, emailUsuario, idUsuario, idPublicacao FROM publicacao 
+        INNER JOIN usuario ON publicacao.idUsuarioPublicacao = usuario.idUsuario 
+        INNER JOIN seguidor ON seguidor.idSeguido = usuario.idUsuario
+        WHERE seguidor.idSeguidor = '{$_SESSION['cod'][0]}'
+        ORDER BY idPublicacao DESC";
 
 $banco->abrirConexao();
 $banco->executarSQL($texto);
@@ -234,11 +238,11 @@ $publicacoes = $banco->lerResultados();
 // $res = $banco->lerResultados();
 
 //TELA INDEX OU TELA PRINCIPAL, TIMELINE. ELE ENTRA AQUI SE O EMAIL E SENHA ESTIVEREM CERTOS
-?>
 
-<?php
+if ($publicacoes == TRUE ) {
 
-        foreach ($publicacoes as $pub) { ?>
+    foreach ($publicacoes as $pub) { ?>
+
 
                 
                    <div class="card testePTColorgray my-4">
@@ -281,30 +285,47 @@ $publicacoes = $banco->lerResultados();
                     </div> -->                            
                 <br>
                                 <?php
-                                 $coment = "SELECT idComentario, comentarioPublicado, emailUsuario FROM comentario 
+                                 $coment = "SELECT idComentario, comentarioPublicado, emailUsuario, idUsuario FROM comentario 
                                 INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao 
                                 INNER JOIN usuario ON comentario.idComentador = usuario.idUsuario WHERE publicacao.idPublicacao = {$pub['idPublicacao']} ORDER BY idComentario ASC"; 
                                 
                                 $banco->executarSQL($coment);
                                 
                                     $arrayComentarios = $banco->lerResultados();
+                                      
                                         foreach ($arrayComentarios as $comentario) { ?>
+                        
                         <div class="mensagemPost">
+                        
                         <div class="avatarMensagem">
 <!--                             <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>">
  -->                            <!-- <img src="assets/img/avatar.png" class="rounded-circle" alt=""></a> -->
                         </div>
+                        
                         <div class="nomeAvatarMensagem">
                             <!-- <a href="" -->
-                               <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>"> <p class="text-preto"><?=$comentario['emailUsuario'];?>
+                              
+
+                                <?php 
+                                    if($comentario['idUsuario'] == $_SESSION['cod'][0]){?>
+
+                                        <a href="perfil.php" src=""> <p><?=$comentario['emailUsuario'];?></p>
+                                        </a>    
+                                    <?php } 
+
+                                    if($comentario['idUsuario'] != $_SESSION['cod'][0]){?>
+
+                                        <a href="perfilOutroUsuario.php?idUsu=<?=$comentario['idUsuario'];?> &idPub=<?=$pub['idPublicacao'];?> "> <p class="text-preto"><?=$comentario['emailUsuario'];?></p>
+                                       </a>
+                                        
+                                    <?php } ?>
+                                    
                                <!-- <br> Compartilhado em 00/00/0000 -->
-                                </p></a>
                             <!-- </a> -->
                         </div>
                         <div class="card-body">
                             <div class="card-text clear">
                                 <p><?=$comentario['comentarioPublicado'];?></p>
-                                <p> Responder</p>
                             </div>
                         </div>
                         </div>
@@ -318,7 +339,7 @@ $publicacoes = $banco->lerResultados();
                       
                             <input type="hidden" name="idPub" value="<?=$pub['idPublicacao'];?>">
                       
-                            <textarea name="comentario" id="" ></textarea>
+                            <textarea name="comentario" id="" placeholder="digite um comentario"></textarea>
                         </div>
                         
                         <div class="comentarioCaixaBtn">
@@ -331,14 +352,18 @@ $publicacoes = $banco->lerResultados();
     
 </div>
                                 
-<?php }  
-?>
+
 
 
 
 <?php
     
+    }
 
+} else {
+
+    echo "Você é novo por aqui? Experimente procurar algum usuario ou conteúdo de estudo de seu interesse";
+}
 
 ?>  
 

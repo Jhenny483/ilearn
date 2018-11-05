@@ -17,7 +17,7 @@ if($res > -1) {
 		$delete = "DELETE FROM publicacao WHERE idPublicacao = '{$_GET['idpub']}'";
 		$banco->abrirConexao();
 		$banco->executarSQL($delete);
-		header('Location: posts.php');
+		header('Location: perfil.php');
 } else {
 		echo 'erro';
 }

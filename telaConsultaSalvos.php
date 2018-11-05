@@ -19,7 +19,6 @@ session_start();
 	
 
 ?>
-<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
@@ -42,19 +41,6 @@ session_start();
 <body>
 
 
-    <!-- <div class="menu"> -->
-
-        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure reiciendis voluptates eligendi, neque delectus consectetur odio temporibus veniam autem, nemo similique voluptatem hic, ullam deleniti! Debitis rem, tenetur quam cumque.</p> -->
-    <!-- </div> -->
-
-
-    <div class="page-wrapper chiller-theme sidebar-bg bg1 toggled">
-        <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
-            <i class="fa fa-bars"></i>
-        </a>
-
-
-     
     <div class="page-wrapper chiller-theme sidebar-bg bg1 toggled">
         <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
             <i class="fa fa-bars"></i>
@@ -62,6 +48,7 @@ session_start();
 
 
         <nav id="sidebar" class="sidebar-wrapper">
+
             <div class="sidebar-content">
                 <div class="sidebar-brand">
                     <a href="#">Fechar menu</a>
@@ -81,10 +68,11 @@ session_start();
                     </div>
                 </div>
                 <!-- sidebar-header  -->
+                <form action="telaPesquisaSQL.php" method="GET">        
                 <div class="sidebar-search">
                     <div>
                         <div class="input-group">
-                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                            <input type="text" name="pesquisa" class="form-control search-menu" placeholder="Buscar">
                             <div class="input-group-append">
                                 <span class="input-group-text">
                                     <i class="fa fa-search" aria-hidden="true"></i>
@@ -93,6 +81,8 @@ session_start();
                         </div>
                     </div>
                 </div>
+         </form> 
+         
                 <!-- sidebar-search  -->
                 <div class="sidebar-menu">
                     <ul>
