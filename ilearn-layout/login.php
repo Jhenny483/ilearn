@@ -41,7 +41,7 @@
     
     <div class="col-md-12 ">
      <div class="row justify-content-center">
-      <form action="" class="formLogin col-md-6 ">
+      <form action="telaDeLogin.php" method="POST" class="formLogin col-md-6 ">
       
       
 <div class="row justify-content-center">
@@ -49,7 +49,7 @@
   <div class="input-group-prepend">
     <span class="input-group-text" id="nome-login">Nome</span>
   </div>
-  <input type="text" class="form-control" aria-label="login " aria-describedby="nome-login">
+  <input type="text" name="login" class="form-control" aria-label="login " aria-describedby="nome-login">
 </div>
      </div>
      
@@ -58,7 +58,7 @@
   <div class="input-group-prepend">
     <span class="input-group-text" id="senha-login">Senha</span>
   </div>
-  <input type="text" class="form-control" aria-label="login " aria-describedby="senha-login">
+  <input type="text" name="senha" class="form-control" aria-label="login " aria-describedby="senha-login">
 </div>
      </div> 
      

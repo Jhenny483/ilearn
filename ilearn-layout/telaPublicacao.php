@@ -1,5 +1,5 @@
 <?php 
-session_start();
+include 'superior.php';
 
 require_once 'bancoDeDados.php';
 //require_once 'loginUsuario.php';
@@ -28,7 +28,7 @@ $arrayPostagem = $banco->lerResultados();
 if($arrayPostagem  > 0 ){
 
 	$banco->executarSQL($inserePublicacao);
-	header('Location: index.php');
+	header('Location:index.php');
 } else {
 	echo 'erro';
 }

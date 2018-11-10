@@ -1,6 +1,5 @@
 <?php 
 session_start();
-
 require_once 'bancoDeDados.php';
 //require_once 'loginUsuario.php';
 
@@ -13,9 +12,8 @@ if($usr == ""){
 
 $textoPublicacao = $_POST['textoPublicacao'];
 
-$select = "SELECT * FROM publicacao WHERE idUsuarioPublicacao = {$_SESSION['cod']}";
+$select = "SELECT * FROM publicacao WHERE idUsuarioPublicacao = {$_SESSION['cod'][0]}";
 
-$inserePublicacao = "INSERT INTO publicacao (idUsuarioPublicacao ,textoPublicacao) VALUES ('{$usr['idUsuario']}' ,'{$textoPublicacao}')";
 
 $banco = new BancoDeDados();
 
@@ -25,12 +23,11 @@ $banco->executarSQL($select);
 $arrayPostagem = $banco->lerResultados();
 
 
-if($arrayPostagem  > 0 ){
+if($arrayPostagem  > -1 ){
 
+		$inserePublicacao = "INSERT INTO publicacao (idUsuarioPublicacao ,textoPublicacao) VALUES ('{$usr['idUsuario']}' ,'{$textoPublicacao}')";
 	$banco->executarSQL($inserePublicacao);
-	header('Location: index.php');
-} else {
-	echo 'erro';
+		header('Location:perfil.php');
 }
 
 //TELA DE PUBLICACAO PEGA O QUE O USUARIO LOGADO ESCREVEU, E INSERE NO BANCO DE DADOS COM AS INFORMACOES DELE, EMAIL E SENHA

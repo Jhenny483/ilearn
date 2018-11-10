@@ -1,12 +1,24 @@
 <?php 
-require_once 'BancoDeDados.php';
-
-$loginC= $_POST['loginCadastro'];
-$senhaC = $_POST['senhaCadastro'];
-$cpfC = $_POST['cpfCadastro'];
 
 
-	$select = "SELECT * FROM usuario WHERE cpfUsuario = '{$_POST['cpfCadastro']}'";
+require_once 'bancoDeDados.php';
+
+$nomeUsuario = $_POST['nomeUsuarioC'];
+
+$dataNasc = $_POST['dataNascC'];
+
+$sexoUsu = $_POST['sUsuarioC'];
+
+$emailUsuario = $_POST['emailUsuarioC'];
+
+$confEmail = $_POST['confirmarEmailC'];
+
+$senhaUsuario = $_POST['senhaUsuarioC'];
+
+$confSenha = $_POST['confirmarSenhaC'];
+
+
+	$select = "SELECT emailUsuario FROM usuario WHERE emailUsuario ='{$emailUsuario}' ";
 
 	$banco = new BancoDeDados();
 		
@@ -16,18 +28,15 @@ $cpfC = $_POST['cpfCadastro'];
 
 	$resultadosArr = $banco->lerResultados();
 
-
-	if( $resultadosArr == true){
-		echo "<script language='javascript' type='text/javascript'>alert('Esse login ja existe');window.location.href='cadastro.html';</script>";
-	} else {
-			$insert = "INSERT INTO usuario ( emailUsuario, senhaUsuario, cpfUsuario) VALUES ('{$loginC}', '{$senhaC}', '{$cpfC}')";
-		session_start();
+	if( $resultadosArr != $emailUsuario || $emailUsuario != $confEmail || $senhaUsuario != $confSenha){
+			$insert = "INSERT INTO usuario (senhaUsuario, emailUsuario, nomeUsuario, dataNasc, sexoUsu ) VALUES ('{$senhaUsuario}' , '{$emailUsuario}' , '{$nomeUsuario}' , '{$dataNasc}' , '{$sexoUsu}' )";
 		$banco->executarSQL($insert);
 		echo "<script language='javascript' type='text/javascript'>alert('Voce foi cadastrado com sucesso');window.location.href='login.html';</script>";
+} else {
+
+		echo "<script language='javascript' type='text/javascript'>alert('Esse login ja existe');window.location.href='telaCadastro.php';</script>";
 	// header('Location:login.html');
 	}
-
-	$banco->fecharConexao();
 
 
 

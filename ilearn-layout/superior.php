@@ -1,3 +1,9 @@
+<?php 
+    session_start();
+    require_once 'bancoDeDados.php';
+    $usr = $_SESSION['cod'];
+?>
+
 <html lang="pt-br">
 
 <head>
@@ -82,7 +88,7 @@
 
         width: 100%;
         height: 60px;
-         background: #ef517c;
+         background: steelblue;
 border-bottom:1px solid #000;
         margin-right: 0px!important;   
 margin-left: 0px!important; 
@@ -115,7 +121,7 @@ text-align: justify;
 
 <div class="col-md-6">
 
-   <p class="saudacao">  Olá Jhon! <a href="alterarCadastro.php"><i class="fa fa-gears"></i></a></p>
+   <p class="saudacao">  Olá Jhon! <a href="logOut.php"><i class="fa fa-gears"></i></a></p>
 </div>
 
 </div>
@@ -140,8 +146,8 @@ text-align: justify;
                         <img class="img-responsive img-rounded" src="assets/img/user.jpg" alt="User picture">
                     </div>
                     <div class="user-info">
-                        <span class="user-name user">Jhon
-                            <strong>Smith</strong>
+                        <span class="user-name user"><?= $usr['emailUsuario'];?>
+                            <!-- <strong>Smith</strong> -->
                         </span>
                         <!-- <span class="user-role">Administrator</span>
                         <span class="user-status">
@@ -153,14 +159,16 @@ text-align: justify;
                 <!-- sidebar-header  -->
                 <div class="sidebar-search">
                     <div>
+                        <form action="telaPesquisaSQL.php">
                         <div class="input-group">
-                            <input type="text" class="form-control search-menu" placeholder="Perquisar...">
+                            <input type="text" name="pesquisa" class="form-control search-menu" placeholder="Pesquisar...">
                             <div class="input-group-append">
                                 <span class="input-group-text">
                                     <i class="fa fa-search" aria-hidden="true"></i>
                                 </span>
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>
                 <!-- sidebar-search  -->
@@ -301,7 +309,7 @@ text-align: justify;
                     </div>
                 </div>
                 <div>
-                    <a href="#">
+                    <a href="logOut">
                         <i class="fa fa-power-off"></i>
                     </a>
                 </div>

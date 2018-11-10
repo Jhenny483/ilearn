@@ -1,5 +1,5 @@
 <?php 
-session_start();
+include 'superior.php';
 	require_once 'bancoDeDados.php';
 	$usr = $_SESSION['cod'];
 

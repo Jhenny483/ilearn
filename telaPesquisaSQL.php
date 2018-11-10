@@ -15,7 +15,8 @@ $pesquisa = $_GET['pesquisa'];
 
 	if(! $pesquisa == ""){
 
-		$sql = "SELECT emailUsuario, idUsuario, idPublicacao, textoPublicacao FROM usuario INNER JOIN publicacao ON publicacao.idUsuarioPublicacao = usuario.idUsuario WHERE emailUsuario LIKE '%".$pesquisa."%' OR textoPublicacao LIKE '%".$pesquisa."%' ORDER BY idUsuario";
+		$sql = "SELECT emailUsuario, idUsuario, idPublicacao, textoPublicacao FROM usuario INNER JOIN publicacao ON publicacao.idUsuarioPublicacao = usuario.idUsuario WHERE textoPublicacao LIKE '%".$pesquisa."%' UNION SELECT emailUsuario, idUsuario, null, null FROM usuario WHERE emailUsuario LIKE '%".$pesquisa."%'";
+
 
 		$banco = new BancoDeDados();
 		$banco->abrirConexao();
@@ -218,7 +219,7 @@ foreach ($resPesquisa as $result) {
 
 
  		foreach ($resPesquisa as $res) { ?>
-	             <!-- <div style="position: relative;left: 25%;">  -->
+	             <div style="position: relative;left: 22%;"> 
 	               <img src="assets/img/user.jpg" alt="" style="width: 50px;">
                    <a href="perfilOutroUsuario.php?idUsu=<?=$res['idUsuario'];?>&idPub=<?=$res['idPublicacao'];?>">
                         <p><?= $res['emailUsuario'];?></p>
@@ -233,15 +234,8 @@ foreach ($resPesquisa as $result) {
                                 
                                 </a> 
                                 <!-- <br>compartilhado em 00/00/0000</p> -->
-                    <div class="card-body">
-                        <div class="card-text img">
-                            <p>
-                        <p><?= $res['textoPublicacao'];?></p>
-                            </p>
-                        </div>
-                    </div>
-			
-<!-- </div> -->
+                    
+</div>
           
 <?php
 		

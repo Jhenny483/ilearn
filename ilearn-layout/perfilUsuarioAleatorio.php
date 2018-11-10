@@ -1,16 +1,17 @@
 <?php
-session_start();
+include 'superior.php';
 require_once 'bancoDeDados.php';
 $usr = $_SESSION['cod'];
 
 if($usr == ""){
-    session_destroy();
-    header('Location:login.html');
+	header('Location:login.html');
 }
 
-?>
 
-<html lang="pt-br">
+?>
+<!DOCTYPE html>
+<html>
+
 
 <head>
     <meta charset="utf-8">
@@ -52,14 +53,13 @@ if($usr == ""){
                         <img class="img-responsive img-rounded" src="assets/img/user.jpg" alt="User picture">
                     </div>
                     <div class="user-info">
-                        <span class="user-name"><?= $usr['emailUsuario'];?>
-                
-                                            
+                        <span class="user-name">
+                            <?= $usr['emailUsuario'];?>
                         </span>
                     </div>
                 </div>
                 <!-- sidebar-header  -->
-         <form action="telaPesquisaSQL.php" method="GET">        
+                 <form action="telaPesquisaSQL.php" method="GET">        
                 <div class="sidebar-search">
                     <div>
                         <div class="input-group">
@@ -73,6 +73,7 @@ if($usr == ""){
                     </div>
                 </div>
          </form> 
+         
                 <!-- sidebar-search  -->
                 <div class="sidebar-menu">
                     <ul>
@@ -108,7 +109,7 @@ if($usr == ""){
                         </li>
 
                         <li class="sidebar-dropdown">
-                            <a href="perfil.php">
+                            <a href="perfil.html">
                                 <i class="fa fa-user"></i>
                                 <span>Perfil</span>
                             </a>
@@ -124,6 +125,7 @@ if($usr == ""){
 
                     <a href="#" class="" id="dropdownMenuNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-bell"></i>
+
                     </a>
                     <div class="dropdown-menu notifications" aria-labelledby="dropdownMenuMessage">
                         <div class="notifications-header">
@@ -193,76 +195,80 @@ if($usr == ""){
                 </div>
             </div>
         </nav>
+	
+<?php
 
-        <!-- sidebar-wrapper  -->
-<main class="page-content">
+
+		$busca = "SELECT emailUsuario FROM usuario WHERE idUsuario = '{$_GET['idUsu']}'";
+
+$banco = new BancoDeDados();
+$banco->abrirConexao();
+$banco->executarSQL($busca);
+$resBusca = $banco->lerResultados();
+
+		foreach ($resBusca as $perfil) { ?>
+			  <main class="page-content">
             <div class="container-fluid">
-                 <div class="row"> 
-            <div class="col-sm-12 col-md-12 primary ">
-                <form  method="POST" action="telaPublicacao.php" >
-                    <div class="card my-4">
-                        <div class="fazerPost">
-                            O que há de novo
-                        </div>
-                        <div class="fazerPostMensagem testePTColorgray">
-
-                            <textarea name="textoPublicacao" id="compartilhe" placeholder="compartilhe seu status"></textarea>
-                        </div>
-                        <div class="fazerPost  cinza-claro">
-                            
-                          
-                            <div class="fazerPostBotao">
-                                
-                                <input name="SendCadImg" type="submit" value="Enviar" class="btn btn-primary float-right">
-                            </div>
-                            
+               <div class="col-md-12">
+                  <div class="titulo"><h1>Perfil</h1></div>
+                <div class="bannerUser">
+                    <img src="assets/img/bg2.jpg" alt="">
+                </div>
+               
+                
+                <div class="fotoUser">
+                    <img src="assets/img/user.jpg" alt="">
+                    <p><?= $perfil['emailUsuario'];?></p>
+                </div>
+            </div>
+             </div>
+             
+             <div class="col-md-12">
+                 <div class="caixaInformacaoUsuario">
+                     
+                     
+                 </div>
+                 
+             </div>
+            
+            
+             <div class="container">
+                    <div class="col-12-md">
+                        <div class="row">
+                            <textarea name="" id="" cols="30" class="caixaPublicacao" placeholder="digite um texto">
+                </textarea>
                         </div>
                     </div>
-                </form>   
+                </div>			
+			</div>
+
+				<?php
+
+					$buscaPublicacoes = "SELECT emailUsuario, textoPublicacao, idPublicacao FROM usuario INNER JOIN publicacao ON usuario.idUsuario = publicacao.idUsuarioPublicacao WHERE usuario.idUsuario = '{$_GET['idUsu']}' ORDER BY idPublicacao DESC";
+
+					$banco->executarSQL($buscaPublicacoes);
+					$resPub = $banco->lerResultados();
 
 
-                <?php   
-$banco = new BancoDeDados(); 
-
-        $texto = "SELECT textoPublicacao, emailUsuario, idUsuario, idPublicacao FROM publicacao 
-        INNER JOIN usuario ON publicacao.idUsuarioPublicacao = usuario.idUsuario 
-        INNER JOIN seguidor ON seguidor.idSeguido = usuario.idUsuario
-        WHERE seguidor.idSeguidor = '{$_SESSION['cod'][0]}'
-        ORDER BY idPublicacao DESC";
-
-$banco->abrirConexao();
-$banco->executarSQL($texto);
-$publicacoes = $banco->lerResultados();
-
-// $banco->executarSQL($coment);
-// $res = $banco->lerResultados();
-
-//TELA INDEX OU TELA PRINCIPAL, TIMELINE. ELE ENTRA AQUI SE O EMAIL E SENHA ESTIVEREM CERTOS
-
-if ($publicacoes == TRUE ) {
-
-    foreach ($publicacoes as $pub) { ?>
-
-
-                
+						foreach ($resPub as $publicacao) { ?>
+			
                    <div class="card testePTColorgray my-4">
                     <div class="mensagem">
+                
                         <button>
-                       <a href="telaSalvos.php?nomeUsu=<?= $pub['emailUsuario']; ?>&textoPub=<?= $pub['textoPublicacao'];?> &idPub=<?=$pub['idPublicacao'];?> &idUsuPub=<?=$pub['idUsuario'];?>" src=""> salvar </a>
-                      </button>
-            
+                            <a href="telaExcluir.php?idpub=<?= $perfil['idPublicacao']; ?>&idUsuario=<?= $perfil['idUsuario']; ?>" src="" >excluir</a>
+                        </button>
+
                             <div class="avatarMensagem">
                                 <img src="assets/img/avatar.png" class="rounded-circle" alt="">
                             </div>
 
                             <div class="nomeAvatarMensagem">
                                 <p class="text-preto">
-                        <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>">
-                                <?= $pub['emailUsuario'];?>
+                       
+                                <?= $publicacao['emailUsuario'];?>
                                 </p>
-                                
-                                </a> 
-
+                            
                                 <!-- <br>compartilhado em 00/00/0000</p> -->
                             </div>
                        
@@ -270,69 +276,53 @@ if ($publicacoes == TRUE ) {
                     <div class="card-body">
                         <div class="card-text img">
                             <p>
-                               <?=$pub['textoPublicacao'];?>
+                               <?=$publicacao['textoPublicacao'];?>
                             </p>
                         </div>
                     </div>
-                  <!--   <div class="card fotoPost">
-                        <img src="assets/img/banner1-1.jpg" alt="">                    
-                    </div> -->
-                    <!-- <div class="botaoMensagem cinza-claro2 py-2">
-                        <button class="btn btn-primary"><i class="fas fa-thumbs-up"></i></button>
-                        <button class="btn btn-primary"><i class="fas fa-share"></i></button>
-                        <p class="ml-4 mt-1">10 curtidas </p>
-                        <p class=" mt-1"> 10 Comentarios</p>
-                    </div> -->                            
-                <br>
-                                <?php
-                                 $coment = "SELECT idComentario, comentarioPublicado, emailUsuario, idUsuario FROM comentario 
+   
+									<input type="hidden" name="idPub" value="<?=$publicacao['idPublicacao'];?>">
+			
+									</div>
+		    
+
+              <?php
+                  
+                                 $coment = "SELECT idComentario, comentarioPublicado, emailUsuario, idPublicacao, idUsuario FROM comentario 
                                 INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao 
-                                INNER JOIN usuario ON comentario.idComentador = usuario.idUsuario WHERE publicacao.idPublicacao = {$pub['idPublicacao']} ORDER BY idComentario ASC"; 
+                                INNER JOIN usuario ON comentario.idComentador = usuario.idUsuario WHERE publicacao.idPublicacao = {$publicacao['idPublicacao']} ORDER BY idComentario ASC"; 
                                 
                                 $banco->executarSQL($coment);
                                 
                                     $arrayComentarios = $banco->lerResultados();
-                                      
+                                 
                                         foreach ($arrayComentarios as $comentario) { ?>
                         
                         <div class="mensagemPost">
-                        
                         <div class="avatarMensagem">
 <!--                             <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>">
- -->                            <!-- <img src="assets/img/avatar.png" class="rounded-circle" alt=""></a> -->
+ -->                          
+          <!-- <img src="assets/img/avatar.png" class="rounded-circle" alt=""></a> -->
                         </div>
-                        
                         <div class="nomeAvatarMensagem">
                             <!-- <a href="" -->
-                              
-
-                                <?php 
-                                    if($comentario['idUsuario'] == $_SESSION['cod'][0]){?>
-
-                                        <a href="perfil.php" src=""> <p><?=$comentario['emailUsuario'];?></p>
-                                        </a>    
-                                    <?php } 
-
-                                    if($comentario['idUsuario'] != $_SESSION['cod'][0]){?>
-
-                                        <a href="perfilOutroUsuario.php?idUsu=<?=$comentario['idUsuario'];?> &idPub=<?=$pub['idPublicacao'];?> "> <p class="text-preto"><?=$comentario['emailUsuario'];?></p>
-                                       </a>
-                                        
-                                    <?php } ?>
-                                    
+                               <a href="perfilUsuarioAleatorio.php?idUsu=<?=$comentario['idUsuario'];?>&idPub=<?=$comentario['idPublicacao'];?>"> <p class="text-preto"><?=$comentario['emailUsuario'];?>
                                <!-- <br> Compartilhado em 00/00/0000 -->
+                                </p></a>
                             <!-- </a> -->
                         </div>
                         <div class="card-body">
                             <div class="card-text clear">
                                 <p><?=$comentario['comentarioPublicado'];?></p>
+
                             </div>
                         </div>
                         </div>
-                                                            
-         <?php } ?>
 
-            <form action="telaComentario.php" method="POST">                  
+
+         <?php } ?>
+  
+  <form action="telaComentario.php" method="POST">                  
                 <div class="row" >
                     <div class="caixaComentario" >
                         <div class="comentarioCaixa">
@@ -348,37 +338,23 @@ if ($publicacoes == TRUE ) {
 
                     </div>
                 </div>
-      </form>
-    
-</div>
-                                
+      </form>   
+
+                            <?php } ?> 
+
+
+ <!-- Notice: Undefined index: textoPublicacao in C:\Xampp\htdocs\ilearn\perfilUsuarioAleatorio.php on line 289 -->
+				
+		
+ <?php } 
 
 
 
+// Notice: Array to string conversion in C:\Xampp\htdocs\TCC!ETEC\perfilOutroUsuario.php on line 56
 
-<?php
-    
-    }
-
-} else {
-
-    echo "Você é novo por aqui? Experimente procurar algum usuario ou conteúdo de estudo de seu interesse";
-}
-
-?>  
-
-
-                <hr>
-                
-                
-
-
-
-            </div>
-        </main>
-        <!-- page-content" -->
-    </div>
-
+// Notice: Undefined index: emailUsuario in C:\Xampp\htdocs\TCC!ETEC\perfilOutroUsuario.php on line 46
+// Notice: Undefined index: emailUsuario in C:\Xampp\htdocs\TCC!ETEC\perfilOutroUsuario.php on line 59
+?>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="lib/jquery/jquery.min.js"></script>
 

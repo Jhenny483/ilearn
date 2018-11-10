@@ -4,7 +4,7 @@
 	$usr = $_SESSION['cod'];
 	$banco = new BancoDeDados();
 
-	$busca = "SELECT emailUsuario, senhaUsuario FROM usuario WHERE idUsuario ='{$_SESSION['cod'][0]}'";
+	$busca = "SELECT * FROM usuario WHERE idUsuario ='{$_SESSION['cod'][0]}'";
 		$banco->abrirConexao();
 		$banco->executarSQL($busca);
 		$res = $banco->lerResultados();
@@ -240,7 +240,7 @@ deleniti! Debitis rem, tenetur quam cumque.</p>
         
         </div>
         
-        <input type="text" class="form-control" name="nomeUsuario" id="validationTooltipUsername" placeholder="Ex: Maria Oliveira" aria-describedby="validationTooltipUsernamePrepend" required>
+                    <input type="text" class="form-control" name="nomeUsuario" id="validationTooltipUsername" placeholder="Ex: Maria Oliveira" aria-describedby="validationTooltipUsernamePrepend" required>
       
       </div>
     	</div>
@@ -249,9 +249,7 @@ class="col-md-5 mb-2">
       <label for="validationTooltipUsername">Data de nascimento</label>
       <div class="input-group">
 
-        <input type="date" name="dataNasc" class="form-control"
-id="validationTooltipUsername" 
-aria-describedby="validationTooltipUsernamePrepend" required>
+                    <input type="date" name="dataNasc" class="form-control" id="validationTooltipUsername" aria-describedby="validationTooltipUsernamePrepend" required>
 
       </div>
     </div>
@@ -282,11 +280,13 @@ xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/><path d="M0
 0h24v24H0z" fill="none"/></svg></span>
         </div>
-        <input type="text" name="emailUsuario" class="form-control"
-id="validationTooltipUsername" placeholder="Ex: Maria Oliveira"
+                         <input type="text" name="emailUsuario" value="<?= $inf['emailUsuario'];?>"class="form-control"
+id="validationTooltipUsername" placeholder=""
 aria-describedby="validationTooltipUsernamePrepend" required>
       </div>
     </div>
+
+
       <div style="position: relative; left: 100%; top:-74px;" class="col-md-10 mb-2">
       <label for="validationTooltipUsername">CONFIRMAR E-MAIL</label>
       <div class="input-group">
@@ -298,9 +298,11 @@ xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0
 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/><path d="M0
 0h24v24H0z" fill="none"/></svg></span>
         </div>
-        <input type="text" name="confirmarEmail" class="form-control"
+
+                          <input type="text" name="confirmarEmail" class="form-control"
 id="validationTooltipUsername" placeholder="Ex: Maria Oliveira"
 aria-describedby="validationTooltipUsernamePrepend" required>
+      
       </div>
     </div>
      
@@ -314,9 +316,11 @@ aria-describedby="validationTooltipUsernamePrepend" required>
           <span class="input-group-text"
 id="validationTooltipUsernamePrepend"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></span>
         </div>
-        <input type="text" name="senhaUsuario" class="form-control"
-id="validationTooltipUsername" placeholder="Ex: Maria Oliveira"
+
+                          <input type="PASSWORD" name="senhaUsuario" value="<?= $inf['senhaUsuario'];?>" class="form-control"
+id="validationTooltipUsername" placeholder=""
 aria-describedby="validationTooltipUsernamePrepend" required>
+     
       </div>
     </div>
          <div style="position: relative; left: 100%; top:-74px;" class="col-md-10 mb-2">
@@ -326,16 +330,19 @@ aria-describedby="validationTooltipUsernamePrepend" required>
           <span class="input-group-text"
 id="validationTooltipUsernamePrepend"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></span>
         </div>
-        <input type="text" name="confirmarSenha" class="form-control"
-id="validationTooltipUsername" placeholder="Ex: Maria Oliveira"
+     
+                       <input type="password" name="confirmarSenha" class="form-control"
+id="validationTooltipUsername" placeholder="senha"
 aria-describedby="validationTooltipUsernamePrepend" required>
+
+
       </div>
     </div>     
         
     </div>
     <div style="position: relative; left: 158%;" class="form-row ">
-<button type="button" class="btn btn-danger">Cancelar</button>
-<button type="button" class="btn btn-success">Salvar</button>
+<a href="telaIndex.php" src=""><button type="button" class="btn btn-danger">Cancelar</button></a>
+<a href="config.php" src=""><button type="button" class="btn btn-success">Salvar</button></a>
 
     </div>
 </form>

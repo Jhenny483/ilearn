@@ -29,14 +29,7 @@ if($consulta > - 1){
 	$banco->abrirConexao();
 	$banco->executarSQL($insere);
 
-	echo "<script language='javascript' type='text/javascript'>alert('comentario publicado!'); window.location.href='index.php'; </script>";
-
-} else {
-
-	echo "<script language= 'javascript' type='text/javascript'>alert('nao foi possivel publicar o comentario'); window.location.href='index.php';</script>";
+	// echo "<script language='javascript' type='text/javascript'>alert('comentario publicado!'); window.location.href='index.php'; </script>";
+header('Location:index.php');
 }
-
-
-
-
 ?>

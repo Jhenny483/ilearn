@@ -1,5 +1,5 @@
 <?php
-include 'superior.php';
+session_start();
 require_once 'bancoDeDados.php';
 	
 	$banco = new BancoDeDados();
@@ -14,12 +14,11 @@ require_once 'bancoDeDados.php';
 
 
 if($res > -1) {
-		$delete = "DELETE FROM publicacao WHERE idPublicacao = '{$_GET['idpub']}'";
+		$delete = "DELETE FROM comentario WHERE idComentario = '{$_GET['idCom']}'";
 		$banco->abrirConexao();
 		$banco->executarSQL($delete);
-		header('Location: perfil.php');
-} else {
-		echo 'erro';
+		// header('Location:perfil.php');
+echo "<script language='javascript' type='text/javascript'>alert('comentario removido');window.location.href='index.php';</script>";
 }
 
 

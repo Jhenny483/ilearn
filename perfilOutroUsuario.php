@@ -243,7 +243,7 @@ $resBusca = $banco->lerResultados();
 
                 <?php
 
-                    $buscaPublicacoes = "SELECT emailUsuario, textoPublicacao, idPublicacao FROM usuario INNER JOIN publicacao ON usuario.idUsuario = publicacao.idUsuarioPublicacao WHERE usuario.idUsuario = '{$_GET['idUsu']}' ORDER BY idPublicacao DESC";
+                    $buscaPublicacoes = "SELECT emailUsuario, idUsuario, textoPublicacao, idPublicacao FROM usuario INNER JOIN publicacao ON usuario.idUsuario = publicacao.idUsuarioPublicacao WHERE usuario.idUsuario = '{$_GET['idUsu']}' ORDER BY idPublicacao DESC";
 
                     $banco->executarSQL($buscaPublicacoes);
                     $resPub = $banco->lerResultados();
@@ -255,7 +255,7 @@ $resBusca = $banco->lerResultados();
                     <div class="mensagem">
             
                             <button>
-                                <a href="telaExcluir.php?idpub=<?= $perfil['idPublicacao']; ?>&idUsuario=<?= $perfil['idUsuario']; ?>" src="" >excluir</a>
+                                <a href="telaSalvos.php?nomeUsu=<?= $publicacao['emailUsuario']; ?>&textoPub=<?= $publicacao['textoPublicacao'];?> &idPub=<?=$publicacao['idPublicacao'];?> &idUsuPub=<?=$publicacao['idUsuario'];?>" src=""> salvar </a>
                             </button>
 
                             <div class="avatarMensagem">
