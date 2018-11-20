@@ -21,7 +21,8 @@
     }
     
     .formCadastro{
-        background: rgba(239, 81, 124, 0.23);
+      border-radius: 10px;
+        background: steelblue;
         padding: 60px 60px 0 60px ;
         margin-top: 80px;
         margin-bottom: 30px;
@@ -42,15 +43,15 @@
     
     <div class="col-md-12 ">
      <div class="row justify-content-center">
-      <form action="" class="formCadastro col-md-6 ">
+      <form action="telaDeCadastro.php" method="POST" enctype="multipart/form-data" class="formCadastro col-md-6 ">
       
       
 <div class="row justify-content-center">
 <div class="input-group mb-3 col-md-12 ">
   <div class="input-group-prepend">
-    <span class="input-group-text" id="nome-login">Nome</span>
+    <span class="input-group-text" id="nome-login">Email</span>
   </div>
-  <input type="text" class="form-control" aria-label="login " aria-describedby="nome-login">
+  <input type="text" class="form-control" name="emailCadastro" aria-label="login " aria-describedby="nome-login">
 </div>
      </div>
      
@@ -59,20 +60,64 @@
   <div class="input-group-prepend">
     <span class="input-group-text" id="senha-login">Senha</span>
   </div>
-  <input type="text" class="form-control" aria-label="login " aria-describedby="senha-login">
+  <input type="password" name="senhaCadastro" class="form-control" aria-label="login " aria-describedby="senha-login">
+</div>
+     </div>
+
+ <div class="row justify-content-center">   
+<div class="input-group mb-3 col-md-12 justify-content-center">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="senha-login">Nickname</span>
+  </div>
+  <input type="text" name="nickCadastro" class="form-control" aria-label="login " aria-describedby="senha-login">
 </div>
      </div> 
+
+
 
 <div class="row justify-content-center">
 <div class="input-group mb-3 col-md-12 ">
   <div class="input-group-prepend">
-    <span class="input-group-text" id="nome-login">Formacao</span>
+    <span class="input-group-text" id="nome-login">Nivel</span>
   </div>
-  <input type="text" class="form-control" aria-label="login " aria-describedby="nome-login">
+  <select class="form-control" name="nivelCadastro" aria-label="login " aria-describedby="nome-login">
+    <option>TECNICO</option>
+     <option>MESTRADO</option>
+      <option>DOUTORADO</option>
+  </select>
 </div>
      </div>
 
 
+<div class="row justify-content-center">
+<div class="input-group mb-3 col-md-12 ">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="nome-login">Instituição</span>
+  </div>
+  <input type="text" class="form-control" name="instituicaoCadastro" aria-label="login " aria-describedby="nome-login">
+</div>
+     </div>
+
+<div class="row justify-content-center">
+<div class="input-group mb-3 col-md-12 ">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="nome-login">Curso</span>
+  </div>
+  <input type="text" class="form-control" name="cursoCadastro" aria-label="login " aria-describedby="nome-login" >
+</div>
+     </div>
+<!-- 
+
+<div class="row justify-content-center">
+<div class="input-group mb-3 col-md-12 ">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="nome-login">imagem</span>
+  </div>
+  <input type="file" class="form-control" name="foto" aria-label="login " aria-describedby="nome-login" placeholder="digite aqui sua formação mais recente">
+</div>
+     </div> -->
+
+<!-- 
      <div class="row justify-content-center">
 <div class="input-group mb-3 col-md-12 ">
   <div class="input-group-prepend">
@@ -89,24 +134,24 @@
     <span class="input-group-text" id="nome-login">Texto</span>
   </div>
   <input type="text" class="form-control" aria-label="login " aria-describedby="nome-login">
+
 </div>
      </div>
 
-
-
+ -->
      
      <div class="row justify-content-center">   
 <div class=" mt-3 col-md-6 justify-content-center text-center">
- <button class="btn btn-primary">Cadastrar</button>
+ <button class="btn btn-primary" style="color: black; background-color: white;" >Cadastrar</button>
 </div>
      </div> 
      <div class="row btn-cadastro-se py-4">
-         <p ><a href="cadastrar.php" >LOGIN</a></p>
+         <p ><a href="login.php" style="color: black;">LOGIN</a></p>
      </div>
       
    
                 
-        </form> 
+</form> 
         </div> 
     </div>
     

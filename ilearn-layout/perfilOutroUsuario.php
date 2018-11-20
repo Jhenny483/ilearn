@@ -7,12 +7,46 @@ if($usr == ""){
     header('Location:login.html');
 }
 
+$banco = new BancoDeDados();
+$banco->abrirConexao();
+
+$idUsu = $_GET['idUsu'];
+
+$find = "SELECT idUsuario, nicknameUsuario FROM usuario WHERE idUsuario = '{$_GET['idUsu']}'";
+$banco->executarSQL($find);
+$resu = $banco->lerResultados(); 
+
+
+
+foreach ($resu as $log) {
+
+}
 
 ?>
 <html lang="pt-br">
+<style>
+    .menuPerfil{
+
+        text-align: right;
+    }
+
+    .menuPerfil p{
+
+        line-height: 105px;
+    }
+
+     .menuPerfil p a{
+
+       color:black;
+    }
+
+    .menuPerfil p a:hover{
+
+       color:#6a6f75;
+    }
+</style>
 
 <head>
-                   <!-- <a href="telaSeguirSQL.php?idUsuario=<?=$perfil['idUsuario'];?> &nomeUsuario=<?=$perfil['emailUsuario'];?>" src=""> -->
                             <!-- <button>
                                 <a href="telaSalvos.php?nomeUsu=<?= $publicacao['emailUsuario']; ?>&textoPub=<?= $publicacao['textoPublicacao'];?> &idPub=<?=$publicacao['idPublicacao'];?> &idUsuPub=<?=$publicacao['idUsuario'];?>" src=""> salvar </a>
                             </button>
@@ -24,7 +58,7 @@ if($usr == ""){
 <body>
 
         <!-- sidebar-wrapper  -->
-        <main class="page-content ">
+                <main class="page-content ">
             <div class="container-fluid margin-superior-menu">
                <div class="col-md-12">
                   <!-- <div class="titulo"><h1></h1></div> -->
@@ -42,11 +76,45 @@ if($usr == ""){
                 <div class="menuPerfil">
 
 
+<?php 
+    
+    $SQLCOUNT = "SELECT idSeguidor FROM seguidor WHERE idSeguido = '{$_GET['idUsu']}'";
+$banco->executarSQL($SQLCOUNT);
+$resBusca = $banco->lerResultados();
+   $idP = count($resBusca);
+
+
+    $SQLCOUNTDOIS = "SELECT idSeguido FROM seguidor WHERE idSeguidor = '{$_GET['idUsu']}'";    
+$banco->executarSQL($SQLCOUNTDOIS);
+$resBuscaDois = $banco->lerResultados();
+   $id = count($resBuscaDois);
+// echo $id;
+
+?>
+
 <p>
-<a href="amigos.php">Seguidores: <span>10</span></a>
-<a href="amigos.php">Seguindo: <span>12</span> </a>
-<button class="btn btn-primary botao">Seguir</button>
+<a href="seguidoresOutro.php?idUsu=<?=$log['idUsuario'];?>">Seguidores: <span><?php echo $idP;?></span></a>
+<a href="seguindoOutro.php?idUsu=<?=$log['idUsuario'];?>">Seguindo: <span><?php echo $id;?></span> </a>
+
+<?php 
+
+$VERIFICA = "SELECT idSeguido, idSeguidor FROM seguidor WHERE idSeguidor = '{$_SESSION['cod'][0]}'";
+  
+    $banco->executarSQL($VERIFICA);
+    $resPesquisa = $banco->lerResultados();
+
+if($resPesquisa == TRUE){ ?>
+
+<button class="btn btn-primary botao"><a href="removerSeguidor.php?idUsu=<?=$log['idUsuario'];?> " src="">Deixar de seguir</a></button>
 </p>
+  
+<?php } else { ?>
+  
+<button class="btn btn-primary botao"><a href="telaSeguirSQL.php?idUsuario=<?=$log['idUsuario'];?> &nomeUsuario=<?=$log['nicknameUsuario'];?>" src="">Seguir</a></button>
+</p>
+<?php }
+
+?>
 
                     </div>
 
@@ -60,9 +128,21 @@ if($usr == ""){
                     <div class="row">
                      <div class="col-md-6">
                   <ul>
-                        <li>Nome: nome user </li>
-                         <li>Formação: formação user</li>
-                         
+
+                    <?php 
+                  $BUSCA = "SELECT * FROM formacao WHERE nomeDono = '{$log['nicknameUsuario']}'";
+                    $banco->executarSQL($BUSCA);
+                    $resP = $banco->lerResultados();
+
+                    foreach ($resP as $r) {
+                        $r['nivel'];
+                        $r['curso'];
+                        $r['instituicao'];
+                                        }
+                  ?>
+                        <li>Nome: <?= $log['nicknameUsuario'];?> </li>
+                         <li>Formação: <?=$r['nivel'];?> EM <?= $r['curso'];?> / <?=$r['instituicao'];?></li>
+                       <!--   
                          <li>Nome: nome user </li>
                          <li>Formação: formação user</li>
                          
@@ -83,16 +163,16 @@ if($usr == ""){
                          
                          <li>Nome: nome user </li>
                          <li>Formação: formação user</li>
-                        
+                        --> 
 
                   </ul>
                   </div>
                   
                   
                   
-                   <div class="col-md-12 botaoSeguir">
+                 <!--   <div class="col-md-12 botaoSeguir">
                   <button class="btn botao">Alterar conta</button>
-                  </div>
+                  </div> -->
                   </div>
                  </div>
                  
@@ -102,10 +182,11 @@ if($usr == ""){
           
 
             
-                    <div class="row"> 
+    
+    <!--                 <div class="row"> 
             <div class="col-sm-12 col-md-12 primary ">
-                <!-- <form  method="POST" action="model/uploadPost.php" enctype="multipart/form-data" > -->
-                    <div class="card my-4">
+     -->            <!-- <form  method="POST" action="model/uploadPost.php" enctype="multipart/form-data" > -->
+    <!--                 <div class="card my-4">
                         <div class="fazerPost">
                             O que há de novo
                         </div>
@@ -135,21 +216,17 @@ if($usr == ""){
                     </div>
                 </form>
 
-
+ -->
 
     
 <?php
-$idUsu = $_GET['idUsu'];
-        $busca = "SELECT emailUsuario, idUsuario FROM usuario WHERE idUsuario = '{$idUsu}'";
+        $busca = "SELECT emailUsuario, idUsuario, nicknameUsuario FROM usuario WHERE idUsuario = '{$idUsu}'";
 
 // var_dump($idUsu);
-
-$banco = new BancoDeDados();
-$banco->abrirConexao();
 $banco->executarSQL($busca);
     $res = $banco->lerResultados();
 
-                    $buscaPublicacoes = "SELECT emailUsuario, idUsuario, textoPublicacao, idPublicacao FROM usuario INNER JOIN publicacao ON usuario.idUsuario = publicacao.idUsuarioPublicacao WHERE usuario.idUsuario = '{$_GET['idUsu']}' ORDER BY idPublicacao DESC";
+                    $buscaPublicacoes = "SELECT emailUsuario, idUsuario, textoPublicacao, idPublicacao, nicknameUsuario FROM usuario INNER JOIN publicacao ON usuario.idUsuario = publicacao.idUsuarioPublicacao WHERE usuario.idUsuario = '{$_GET['idUsu']}' ORDER BY idPublicacao DESC";
 
                     $banco->executarSQL($buscaPublicacoes);
                     $resPub = $banco->lerResultados();
@@ -158,12 +235,13 @@ $banco->executarSQL($busca);
                         foreach ($resPub as $publicacao) { ?>
             <div class="card testePTColorgray my-4 ">
                     <div class="mensagem">
-                        <a href="perfil.php">
+            <a href="perfilOutroUsuario.php?idUsu=<?=$publicacao['idUsuario'];?>&idPub=<?=$publicacao['idPublicacao'];?>" src="">
+
                             <div class="avatarMensagem">
                                 <img src="assets/img/avatar.png" class="rounded-circle" alt="">
                             </div>
                             <div class="nomeAvatarMensagem">
-                                <p class="text-preto"><?= $publicacao['emailUsuario'] ?><br>compartilhado em 00/00/0000</p>
+                                <p class="text-preto"><?= $publicacao['nicknameUsuario'] ?><br>compartilhado em 00/00/0000</p>
                             </div>
                         </a>
                     </div>
@@ -174,27 +252,28 @@ $banco->executarSQL($busca);
                             </p>
                         </div>
                     </div>
-                    <div class="card fotoPost"> </div>
-                    <div class="botaoMensagem cinza-claro2 py-2">
-                        <button class="btn btn-primary botao"><i class="fa fa-share"></i></button>
-                        <button class="btn btn-primary botao"><i class="fa fa-thumbs-up"></i></button>
-                        <p class="ml-4 mt-1">10 curtidas </p>
-                        <p class=" mt-1"> 10 Comentarios</p>
-                        <!-- <a href="telaSalvos.php?nomeUsu=<?= $pub['emailUsuario']; ?>&textoPub=<?= $pub['textoPublicacao'];?> &idPub=<?=$pub['idPublicacao'];?> &idUsuPub=<?=$pub['idUsuario'];?>" src="">
-                            <button class="btn btn-primary botao"><i class="fa fa-save"></i></button></a> -->
-                    </div>
-                
 
                       <?php
                   
-             $coment = "SELECT idComentario, comentarioPublicado, emailUsuario, idPublicacao, idUsuario FROM comentario 
+             $coment = "SELECT idComentario, comentarioPublicado, emailUsuario, idPublicacao, idUsuario, nicknameUsuario FROM comentario 
                         INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao 
                         INNER JOIN usuario ON comentario.idComentador = usuario.idUsuario WHERE publicacao.idPublicacao = {$publicacao['idPublicacao']} ORDER BY idComentario ASC"; 
                                 
                                 $banco->executarSQL($coment);
                                 
                                     $arrayComentarios = $banco->lerResultados();
-                                 
+                                 $idCom = count($arrayComentarios); ?>
+
+                    <div class="card fotoPost"> </div>
+                    <div class="botaoMensagem cinza-claro2 py-2">
+                        <!-- <button class="btn btn-primary botao"><i class="fa fa-share"></i></button> -->
+                        <!-- <button class="btn btn-primary botao"><i class="fa fa-thumbs-up"></i></button> -->
+                        <!-- <p class="ml-4 mt-1">10 curtidas </p> -->
+                        <p class=" mt-1"> <?php echo $idCom;?> Comentarios</p>
+                        <!-- <a href="telaSalvos.php?nomeUsu=<?= $pub['emailUsuario']; ?>&textoPub=<?= $pub['textoPublicacao'];?> &idPub=<?=$pub['idPublicacao'];?> &idUsuPub=<?=$pub['idUsuario'];?>" src="">
+                            <button class="btn btn-primary botao"><i class="fa fa-save"></i></button></a> -->
+                    </div>
+                <?php
                                         foreach ($arrayComentarios as $comentario) { ?>
                       
 
@@ -205,12 +284,18 @@ $banco->executarSQL($busca);
                             <a href="coordenador.php"><img src="assets/img/avatar.png" class="rounded-circle" alt=""></a>
                         </div>
                         <div class="nomeAvatarMensagemResposta">
-                             <a href="perfilUsuarioAleatorio.php?idUsu=<?=$comentario['idUsuario'];?>&idPub=<?=$comentario['idPublicacao'];?>"> <p class="text-preto"><?=$comentario['emailUsuario'];?>
+                             <a href="perfilOutroUsuario.php?idUsu=<?=$comentario['idUsuario'];?>&idPub=<?=$comentario['idPublicacao'];?>"> <p class="text-preto"><?=$comentario['nicknameUsuario'];?>
                                <!-- <br> Compartilhado em 00/00/0000 -->
                                 </p></a>
-                                <br> Compartilhado em 00/00/0000
+                                <!-- <br> Compartilhado em 00/00/0000 -->
                             </a>
-                        </div>
+                        </div>  <?php
+                        if($comentario['idUsuario'] == $_SESSION['cod'][0]){?>
+                        <a href="telaExcluirComentarioDois.php?idpub=<?= $comentario['idPublicacao']; ?>&idUsuario=<?= $comentario['idUsuario'];?> &idCom=<?=$comentario['idComentario'];?>" src="" >
+                        <button class="btn btn-primary botao"><i class="fa fa-trash-o"></i></button>
+                    </a>
+                        <?php } ?>
+                     
                         <div class="card-body">
                             <div class="card-text clear text-post">
                                 <p><?=$comentario['comentarioPublicado'];?></p>

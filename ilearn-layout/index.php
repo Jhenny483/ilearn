@@ -53,7 +53,6 @@ include "superior.php";
                                 
                                 <input name="SendCadImg" type="submit" value="Enviar" class="btn btn-primary float-right botao">
                             </div>
-                            </form>
                         </div>
                     </div>
                 </form>
@@ -61,7 +60,7 @@ include "superior.php";
  <!-- primeiro post -->
 
 <?php 
-    $sql = "SELECT textoPublicacao, emailUsuario, idUsuario, idPublicacao FROM publicacao
+    $sql = "SELECT textoPublicacao, emailUsuario, idUsuario, idPublicacao, nicknameUsuario FROM publicacao
              INNER JOIN usuario ON publicacao.idUsuarioPublicacao = usuario.idUsuario ORDER BY idPublicacao DESC";
 
     $banco = new BancoDeDados();
@@ -73,50 +72,55 @@ include "superior.php";
             foreach ($res as $pub) {?>
                <div class="card testePTColorgray my-4 ">
                     <div class="mensagem">
-                        <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>" src="">
+                        <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>" src="">
                             <div class="avatarMensagem">
                                 <img src="assets/img/avatar.png" class="rounded-circle" alt="">
                             </div>
                             <div class="nomeAvatarMensagem">
-                                <p class="text-preto"><?= $pub['emailUsuario'] ?><br>compartilhado em 00/00/0000</p>
+                                <p class="text-preto"><?= $pub['nicknameUsuario'] ?>
+                                <!-- <br>compartilhado em 00/00/0000</p> -->
                             </div>
                         </a>
                     </div>
                     <div class="card-body">
                         <div class="card-text img text-post">
-                            <p>
+                            <p style="font-size: 20px;">
                                 <?= $pub['textoPublicacao'];?>
                             </p>
                         </div>
-                    </div>
-                    <div class="card fotoPost"> </div>
-                    <div class="botaoMensagem cinza-claro2 py-2">
-                        <button class="btn btn-primary botao"><i class="fa fa-share"></i></button>
-                        <button class="btn btn-primary botao"><i class="fa fa-thumbs-up"></i></button>
-                        <p class="ml-4 mt-1">10 curtidas </p>
-                        <p class=" mt-1"> 10 Comentarios</p>
-                        <a href="telaSalvos.php?nomeUsu=<?= $pub['emailUsuario']; ?>&textoPub=<?= $pub['textoPublicacao'];?> &idPub=<?=$pub['idPublicacao'];?> &idUsuPub=<?=$pub['idUsuario'];?>" src="">
-                            <button class="btn btn-primary botao"><i class="fa fa-save"></i></button></a>
-                    </div>
-                 
-
             <?php 
-                            $coment = "SELECT idComentario,comentarioPublicado, emailUsuario, idUsuario, idPublicacao FROM comentario 
+                            $coment = "SELECT idComentario,comentarioPublicado, emailUsuario, idUsuario, idPublicacao, nicknameUsuario FROM comentario 
                                 INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao 
                                 INNER JOIN usuario ON comentario.idComentador = usuario.idUsuario WHERE publicacao.idPublicacao = {$pub['idPublicacao']} ORDER BY idComentario ASC"; 
                         $banco->executarSQL($coment);
                         $resC = $banco->lerResultados();
                          
+                        $qtdCom = count($resC); ?>
+                    </div>
+                    <div class="card fotoPost"> </div>
+                    <div class="botaoMensagem cinza-claro2 py-2">
+                        <!-- <button class="btn btn-primary botao"><i class="fa fa-share"></i></button> -->
+                        <!-- <button class="btn btn-primary botao"><i class="fa fa-thumbs-up"></i></button> -->
+                        <!-- <p class="ml-4 mt-1">10 curtidas </p> -->
+                        <p class=" mt-1"> <?php echo $qtdCom;?> Comentarios</p>
+                        <a href="telaSalvos.php?nomeUsu=<?= $pub['nicknameUsuario']; ?>&textoPub=<?= $pub['textoPublicacao'];?> &idPub=<?=$pub['idPublicacao'];?> &idUsuPub=<?=$pub['idUsuario'];?>" src="">
+                            <button class="btn btn-primary botao"><i class="fa fa-save"></i></button></a>
+                    </div>
+                 <?php
+
+
                 foreach ($resC as $com) {?>           
 
                     <div class="mensagemPostResposta">
                         <div class="avatarMensagem">
-                            <a href="coordenador.php"><img src="assets/img/avatar.png" class="rounded-circle" alt=""></a>
+                           <a href="perfilOutroUsuario.php?idUsu=<?=$com['idUsuario'];?>&idPub=<?=$com['idPublicacao'];?>" src="">
+<img src="assets/img/avatar.png" class="rounded-circle" alt=""></a>
                         </div>
                         <div class="nomeAvatarMensagemResposta">
-                            <a href="coordenador.php">
-                                <p class="text-preto"><?=$com['emailUsuario'];?> 
-                                <br> Compartilhado em 00/00/0000
+      <a href="perfilOutroUsuario.php?idUsu=<?=$com['idUsuario'];?>&idPub=<?=$com['idPublicacao'];?>" src="">
+
+                                <p class="text-preto"><?=$com['nicknameUsuario'];?> 
+                                <!-- <br> Compartilhado em 00/00/0000 -->
                                 </p>
                             </a>
                         </div>

@@ -1,11 +1,10 @@
 <?php 
-include 'superior.php';
+session_start();
 
 require_once 'bancoDeDados.php';
 //require_once 'loginUsuario.php';
 
 $usr = $_SESSION['cod'];
-
 
 if($usr == ""){
 	header('Location:login.html');

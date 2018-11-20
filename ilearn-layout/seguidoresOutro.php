@@ -4,7 +4,9 @@ require_once 'bancoDeDados.php';
 $usr = $_SESSION['cod'][0];
 $banco = new BancoDeDados();
 
-      $select = "SELECT idSeguidor FROM seguidor WHERE idSeguido = '{$usr}' ORDER BY idSeg DESC";
+
+
+      $select = "SELECT idSeguido, idSeguidor FROM seguidor WHERE idSeguidor = '{$_GET['idUsu']}' ORDER BY idSeg DESC";
 
 $banco->abrirConexao();
 $banco->executarSQL($select);
@@ -34,7 +36,7 @@ top:-40px;
     <div class="row " style="background-color: ;">
 <?php 
 
-    $seguidores = "SELECT nicknameSeguidor FROM seguidor WHERE idSeguido = '$usr'";
+    $seguidores = "SELECT nicknameSeguidor, idSeguidor, idSeguidor FROM seguidor WHERE idSeguido = '{$_GET['idUsu']}'";
     $banco->executarSQL($seguidores);
     $resBusca = $banco->lerResultados();
 
@@ -49,7 +51,7 @@ top:-40px;
   <div class="card-body">
     <h5 class="card-title"><?=$amigo['nicknameSeguidor'];?></h5>
     
-    <a href="perfilOutroUsuario.php" src="" class="btn btn-primary">Ver amigo</a>
+    <a href="perfilOutroUsuario.php?idUsu=<?=$amigo['idSeguidor'];?>" src="" class="btn btn-primary">Ver amigo</a>
   </div>
 </div>
        

@@ -8,7 +8,7 @@ if($usr == ""){
 	header('Location:login.html');
 }
 	if(!isset($_GET['pesquisa'])){
-		header('Location:telaIndex.php');
+		header('Location:index.php');
 	}
 
 
@@ -16,7 +16,7 @@ $pesquisa = $_GET['pesquisa'];
 
 	if(! $pesquisa == ""){
 
-		$sql = "SELECT emailUsuario, idUsuario FROM usuario WHERE emailUsuario LIKE '%".$pesquisa."%'";
+		$sql = "SELECT emailUsuario, idUsuario, nicknameUsuario FROM usuario WHERE nicknameUsuario LIKE '%".$pesquisa."%'";
 
 
 		$banco = new BancoDeDados();
@@ -43,14 +43,14 @@ $pesquisa = $_GET['pesquisa'];
                
              <div class="card testePTColorgray ">
                     <div class="mensagem">
-                        <a href="perfilOutroUsuario.php?idUsu=<?=$pub['idUsuario'];?>&idPub=<?=$pub['idPublicacao'];?>" src="">
+                        <a href="perfilOutroUsuario.php?idUsu=<?=$res['idUsuario'];?>" src="">
                             <div class="avatarMensagem">
                                 <img src="assets/img/avatar.png" class="rounded-circle" alt="">
                             </div>
                             <div class="nomeAvatarMensagem">
-                                <p class="text-preto"><?= $res['emailUsuario'] ?></p>
+                                <p class="text-preto"><?= $res['nicknameUsuario'] ?></p>
                             </div></a>
-                            <a href="telaSeguirSQL.php?idUsuario=<?=$res['idUsuario'];?> &nomeUsuario=<?=$res['emailUsuario'];?>" src="">
+                            <a href="telaSeguirSQL.php?idUsuario=<?=$res['idUsuario'];?> &nomeUsuario=<?=$res['nicknameUsuario'];?>" src="">
                         <button class="btn btn-primary botao">seguir</button></a>
                         
                     </div>

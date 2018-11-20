@@ -54,7 +54,7 @@ if($usr == ""){
                     </div>
                     <div class="user-info">
                         <span class="user-name">
-                            <?= $usr['emailUsuario'];?>
+                            <?= $usr['nicknameUsuario'];?>
                         </span>
                     </div>
                 </div>
@@ -199,7 +199,7 @@ if($usr == ""){
 <?php
 
 
-		$busca = "SELECT emailUsuario FROM usuario WHERE idUsuario = '{$_GET['idUsu']}'";
+		$busca = "SELECT emailUsuario, nicknameUsuario FROM usuario WHERE idUsuario = '{$_GET['idUsu']}'";
 
 $banco = new BancoDeDados();
 $banco->abrirConexao();
@@ -218,7 +218,7 @@ $resBusca = $banco->lerResultados();
                 
                 <div class="fotoUser">
                     <img src="assets/img/user.jpg" alt="">
-                    <p><?= $perfil['emailUsuario'];?></p>
+                    <p><?= $perfil['nicknameUsuario'];?></p>
                 </div>
             </div>
              </div>
@@ -244,7 +244,7 @@ $resBusca = $banco->lerResultados();
 
 				<?php
 
-					$buscaPublicacoes = "SELECT emailUsuario, textoPublicacao, idPublicacao FROM usuario INNER JOIN publicacao ON usuario.idUsuario = publicacao.idUsuarioPublicacao WHERE usuario.idUsuario = '{$_GET['idUsu']}' ORDER BY idPublicacao DESC";
+					$buscaPublicacoes = "SELECT emailUsuario, textoPublicacao, idPublicacao, nicknameUsuario FROM usuario INNER JOIN publicacao ON usuario.idUsuario = publicacao.idUsuarioPublicacao WHERE usuario.idUsuario = '{$_GET['idUsu']}' ORDER BY idPublicacao DESC";
 
 					$banco->executarSQL($buscaPublicacoes);
 					$resPub = $banco->lerResultados();
@@ -266,7 +266,7 @@ $resBusca = $banco->lerResultados();
                             <div class="nomeAvatarMensagem">
                                 <p class="text-preto">
                        
-                                <?= $publicacao['emailUsuario'];?>
+                                <?= $publicacao['nicknameUsuario'];?>
                                 </p>
                             
                                 <!-- <br>compartilhado em 00/00/0000</p> -->
@@ -288,7 +288,7 @@ $resBusca = $banco->lerResultados();
 
               <?php
                   
-                                 $coment = "SELECT idComentario, comentarioPublicado, emailUsuario, idPublicacao, idUsuario FROM comentario 
+                                 $coment = "SELECT idComentario, comentarioPublicado, emailUsuario, idPublicacao, idUsuario, nicknameUsuario FROM comentario 
                                 INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao 
                                 INNER JOIN usuario ON comentario.idComentador = usuario.idUsuario WHERE publicacao.idPublicacao = {$publicacao['idPublicacao']} ORDER BY idComentario ASC"; 
                                 
@@ -306,7 +306,7 @@ $resBusca = $banco->lerResultados();
                         </div>
                         <div class="nomeAvatarMensagem">
                             <!-- <a href="" -->
-                               <a href="perfilUsuarioAleatorio.php?idUsu=<?=$comentario['idUsuario'];?>&idPub=<?=$comentario['idPublicacao'];?>"> <p class="text-preto"><?=$comentario['emailUsuario'];?>
+                               <a href="perfilUsuarioAleatorio.php?idUsu=<?=$comentario['idUsuario'];?>&idPub=<?=$comentario['idPublicacao'];?>"> <p class="text-preto"><?=$comentario['nicknameUsuario'];?>
                                <!-- <br> Compartilhado em 00/00/0000 -->
                                 </p></a>
                             <!-- </a> -->

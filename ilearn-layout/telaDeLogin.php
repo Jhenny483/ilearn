@@ -29,7 +29,7 @@ if($resultadosArr == true ){
 		
 		}else{
 	
-	echo"<script language='javascript' type='text/javascript'>alert('login ou senha invalidos');window.location.href='login.html';</script>";
+	echo"<script language='javascript' type='text/javascript'>alert('login ou senha invalidos');window.location.href='login.php';</script>";
 
 }
 

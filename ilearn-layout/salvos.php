@@ -45,8 +45,9 @@ include "superior.php";
                        
                                <div class="container-fluid" style="background-color:snow; border: solid 1px; border-radius: 5px; height: auto;">
                                    <div class="user-pic">
-                                       
-                            <img class="img-responsive img-rounded" style="float: left; width: 60px; padding: 2px; margin-top: 7px; border-radius: 12px; margin-right: 15px; overflow: hidden;" src="assets/img/user.jpg" alt="User picture">
+<!--                                                                        <img src="assets/img/avatar.png" class="rounded-circle" alt="">
+ -->
+                            <img class="rounded-circle" style="float: left; width: 60px; padding: 2px; margin-top: 7px; border-radius: 12px; margin-right: 15px; overflow: hidden;" src="assets/img/avatar.png" alt="User picture">
                     <div class="user-info">
                            <a href="perfilOutroUsuario.php?idUsu=<?=$save['idUsuario'];?>&idPub=<?=$save['idPublicacao'];?>"" class="user-name" style="color: #000000; position: relative; right: 42%; top: 10px; ">
                             <?= $save['usuarioSalvo'];?>
@@ -57,7 +58,7 @@ include "superior.php";
 
                              <a href="post.php?idPub=<?=$save['idPublicacao'];?>" src="" style="float: left;position: relative; left: 60%;top: 25px;" class="user-name" style="color: #ffffff;"> VER MAIS 
                            </a>
-                                 <div>  <p style="width: 60%;right: 10%;position: relative;word-wrap: break-word; text-align: justify; top: -10px;"><?=$save['textoSalvo'];?></p></div>
+                                 <div>  <p style="width: 60%;right: 10%;position: relative;word-wrap: break-word; text-align: justify; top: -10px;"><?php echo substr($save['textoSalvo'], 0,30);?>...</p></div>
                           </div>
                         </div>
                       </div>

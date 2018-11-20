@@ -46,17 +46,31 @@ foreach ($res as $usu) {
                <div class="row">
                 <div class="col-md-6">
                 <div class="fotoUser">
-                    <img src="assets/img/user.jpg" alt="">
+                                <img src="assets/img/avatar.png" class="rounded-circle" alt="">
                 </div>
 </div>
 <div class="col-md-6">
                 <div class="menuPerfil">
 
+<?php 
+    
+    $SQLCOUNT = "SELECT idSeguidor FROM seguidor WHERE idSeguido = '{$_SESSION['cod'][0]}'";
+$banco->executarSQL($SQLCOUNT);
+$resBusca = $banco->lerResultados();
+   $idP = count($resBusca);
 
+
+    $SQLCOUNTDOIS = "SELECT idSeguido FROM seguidor WHERE idSeguidor = '{$_SESSION['cod'][0]}'";    
+$banco->executarSQL($SQLCOUNTDOIS);
+$resBuscaDois = $banco->lerResultados();
+   $id = count($resBuscaDois);
+// echo $id;
+
+?>
 <p>
-<a href="amigos.php">Seguidores: <span>10</span></a>
-<a href="amigos.php">Seguindo: <span>12</span> </a>
-<button class="btn btn-primary botao">Seguir</button>
+<a href="seguidores.php">Seguidores:<span><?php echo $idP;?></span></a>
+<a href="seguindo.php">Seguindo: <span><?php echo $id; ?></span> </a>
+<!-- <button class="btn btn-primary botao">Seguir</button> -->
 </p>
 
                     </div>
@@ -69,10 +83,20 @@ foreach ($res as $usu) {
              <div class="col-md-12">
                  <div class="caixaInformacaoUsuario">
                     <div class="row">
-                     <div class="col-md-3">
-                  <ul>
-                        <li>Nome: <?= $usu['emailUsuario'];?> </li>
-                         <li>Formação: formação user</li>
+                     <div class="col-md-6">
+                  <ul><?php 
+                  $BUSCA = "SELECT * FROM formacao WHERE nomeDono = '{$usu['nicknameUsuario']}'";
+                    $banco->executarSQL($BUSCA);
+                    $resP = $banco->lerResultados();
+
+                    foreach ($resP as $r) {
+                        $r['nivel'];
+                        $r['curso'];
+                        $r['instituicao'];
+                                        }
+                  ?>
+                        <li>Nome: <?= $usu['nicknameUsuario'];?> </li>
+                         <li>Formação:<?=$r['nivel'];?> EM <?= $r['curso'];?> / <?=$r['instituicao'];?></li>
                        <!--   
                          <li>Nome: nome user </li>
                          <li>Formação: formação user</li>
@@ -101,9 +125,9 @@ foreach ($res as $usu) {
                   
                   
                   
-                   <div class="col-md-12 botaoSeguir">
+                 <!--   <div class="col-md-12 botaoSeguir">
                   <button class="btn botao">Alterar conta</button>
-                  </div>
+                  </div> -->
                   </div>
                  </div>
                  
@@ -147,7 +171,7 @@ foreach ($res as $usu) {
                     </div>
 
 <?php
-$selectUsu= "SELECT emailUsuario, textoPublicacao, idPublicacao, idUsuario FROM usuario INNER JOIN publicacao ON usuario.idUsuario = publicacao.idUsuarioPublicacao WHERE usuario.idUsuario  = '{$_SESSION['cod'][0]}' ORDER BY idPublicacao DESC";
+$selectUsu= "SELECT emailUsuario, textoPublicacao, idPublicacao, idUsuario, nicknameUsuario FROM usuario INNER JOIN publicacao ON usuario.idUsuario = publicacao.idUsuarioPublicacao WHERE usuario.idUsuario  = '{$_SESSION['cod'][0]}' ORDER BY idPublicacao DESC";
 
 
         $banco->abrirConexao();
@@ -162,51 +186,54 @@ $selectUsu= "SELECT emailUsuario, textoPublicacao, idPublicacao, idUsuario FROM 
                                 <img src="assets/img/avatar.png" class="rounded-circle" alt="">
                             </div>
                             <div class="nomeAvatarMensagem">
-                                <p class="text-preto"><?= $perfil['emailUsuario'] ?><br>compartilhado em 00/00/0000</p>
+                                <p class="text-preto"><?= $perfil['nicknameUsuario'] ?>
+                                <!-- <br>compartilhado em 00/00/0000</p> -->
                             </div>
                         </a>
                     </div>
                     <div class="card-body">
                         <div class="card-text img text-post">
-                            <p>
+                            <p style="font-size: 20px;">
                                 <?= $perfil['textoPublicacao'];?>
                             </p>
                         </div>
-                    </div>
-                    <div class="card fotoPost"> </div>
-                    <div class="botaoMensagem cinza-claro2 py-2">
-                        <button class="btn btn-primary botao"><i class="fa fa-share"></i></button>
-                        <button class="btn btn-primary botao"><i class="fa fa-thumbs-up"></i></button>
-                        <a href="telaExcluir.php?idpub=<?= $perfil['idPublicacao']; ?>&idUsuario=<?= $perfil['idUsuario']; ?>" src="" >
-                        <button class="btn btn-primary botao"><i class="fa fa-trash-o"></i></button></a>
-                        
-                        <p class="ml-4 mt-1">10 curtidas </p>
-                        <p class=" mt-1"> 10 Comentarios</p>
-                        <!-- <a href="telaSalvos.php?nomeUsu=<?= $pub['emailUsuario']; ?>&textoPub=<?= $pub['textoPublicacao'];?> &idPub=<?=$pub['idPublicacao'];?> &idUsuPub=<?=$pub['idUsuario'];?>" src="">
-                            <button class="btn btn-primary botao"><i class="fa fa-save"></i></button></a> -->
-                    </div>
-                 
 
             <?php 
-                            $coment = "SELECT idComentario,comentarioPublicado, emailUsuario FROM comentario 
+                            $coment = "SELECT idComentario,comentarioPublicado, emailUsuario, nicknameUsuario, idUsuario, idPublicacao FROM comentario 
                                 INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao 
                                 INNER JOIN usuario ON comentario.idComentador = usuario.idUsuario WHERE publicacao.idPublicacao = {$perfil['idPublicacao']} ORDER BY idComentario ASC"; 
                          
                          $banco->executarSQL($coment);
                                 
-                    $arrayComentarios = $banco->lerResultados();
+                    $arrayComentarios = $banco->lerResultados(); 
 
+                        $idCom = count($arrayComentarios); ?>
+                    </div>
+                    <div class="card fotoPost"> </div>
+                    <div class="botaoMensagem cinza-claro2 py-2">
+                        <!-- <button class="btn btn-primary botao"><i class="fa fa-share"></i></button> -->
+                        <!-- <button class="btn btn-primary botao"><i class="fa fa-thumbs-up"></i></button> -->
+                        <a href="telaExcluir.php?idpub=<?= $perfil['idPublicacao']; ?>&idUsuario=<?= $perfil['idUsuario']; ?>" src="" >
+                        <button class="btn btn-primary botao"><i class="fa fa-trash-o"></i></button></a>
+                        
+                        <!-- <p class="ml-4 mt-1">10 curtidas </p> -->
+                        <p class=" mt-1"> <?php echo $idCom;?> Comentarios</p>
+                        <!-- <a href="telaSalvos.php?nomeUsu=<?= $pub['emailUsuario']; ?>&textoPub=<?= $pub['textoPublicacao'];?> &idPub=<?=$pub['idPublicacao'];?> &idUsuPub=<?=$pub['idUsuario'];?>" src="">
+                            <button class="btn btn-primary botao"><i class="fa fa-save"></i></button></a> -->
+                    </div>
+                 
+<?php
                    foreach ($arrayComentarios as $comentario) { ?>
                 
 
                     <div class="mensagemPostResposta">
                         <div class="avatarMensagem">
-                            <a href="coordenador.php"><img src="assets/img/avatar.png" class="rounded-circle" alt=""></a>
+    <a href="perfilOutroUsuario.php?idUsu=<?=$comentario['idUsuario'];?>&idPub=<?=$comentario['idPublicacao'];?>" src=""> <img src="assets/img/avatar.png" class="rounded-circle" alt=""></a>
                         </div>
                         <div class="nomeAvatarMensagemResposta">
-                            <a href="coordenador.php">
-                                <p class="text-preto"><?=$comentario['emailUsuario'];?> 
-                                <br> Compartilhado em 00/00/0000
+                           <a href="perfilOutroUsuario.php?idUsu=<?=$comentario['idUsuario'];?>&idPub=<?=$comentario['idPublicacao'];?>" src="">
+                                <p class="text-preto"><?=$comentario['nicknameUsuario'];?> 
+                                <!-- <br> Compartilhado em 00/00/0000 -->
                                 </p>
                             </a>
                         </div>

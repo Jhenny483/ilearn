@@ -21,13 +21,15 @@
     }
     
     .formLogin{
-        background: rgba(239, 81, 124, 0.23);
+           border-radius: 10px;
+        background: steelblue;
         padding: 60px 60px 0 60px ;
         margin-top: 80px;
         
     }
     
     .btn-cadastro p{
+
         text-align: center;
         margin: 0 auto;
     }
@@ -58,17 +60,17 @@
   <div class="input-group-prepend">
     <span class="input-group-text" id="senha-login">Senha</span>
   </div>
-  <input type="text" name="senha" class="form-control" aria-label="login " aria-describedby="senha-login">
+  <input type="password" name="senha" class="form-control" aria-label="login " aria-describedby="senha-login">
 </div>
      </div> 
      
      <div class="row justify-content-center">   
 <div class=" mt-3 col-md-6 justify-content-center text-center">
- <button class="btn btn-primary">Entrar</button>
+ <button style='background-color: white; color: black;' class="btn btn-primary">Entrar</button>
 </div>
      </div> 
      <div class="row btn-cadastro py-4">
-         <p ><a href="cadastrar.php" >CADASTRE-SE</a></p>
+         <p ><a style='color: black;' href="cadastrar.php" >CADASTRE-SE</a></p>
      </div>
       
    

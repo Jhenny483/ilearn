@@ -1,7 +1,17 @@
 <?php 
     session_start();
     require_once 'bancoDeDados.php';
-    $usr = $_SESSION['cod'];
+    $usr = $_SESSION['cod'][0];
+    $sql = "SELECT imagemUsuario, nicknameUsuario from usuario WHERE idUsuario = '{$usr}'";
+
+
+    $banco = new BancoDeDados();
+    $banco->abrirConexao();
+    $banco->executarSQL($sql);
+    $res = $banco->lerResultados();
+    foreach ($res as $foto) {
+     // echo $foto['imagemUsuario'];
+    }
 ?>
 
 <html lang="pt-br">
@@ -115,13 +125,14 @@ text-align: justify;
          <div class="row topo">
 
 <div class="col-md-6 logo" >
-
+    <a href="index.php">
     <img src="img/logo.png" >
+</a>
 </div>
 
 <div class="col-md-6">
 
-   <p class="saudacao">  Olá Jhon! <a href="logOut.php"><i class="fa fa-gears"></i></a></p>
+   <p class="saudacao">  Olá <?=$foto['nicknameUsuario'];?>! <a href="logOut.php"><i class="fa fa-gears"></i></a></p>
 </div>
 
 </div>
@@ -143,10 +154,10 @@ text-align: justify;
 -->
                 <div class="sidebar-header">
                     <div class="user-pic">
-                        <img class="img-responsive img-rounded" src="assets/img/user.jpg" alt="User picture">
+                                <img src="assets/img/avatar.png" class="rounded-circle" alt="">
                     </div>
                     <div class="user-info">
-                        <span class="user-name user"><?= $usr['emailUsuario'];?>
+                        <span class="user-name user"><?= $foto['nicknameUsuario'];?>
                             <!-- <strong>Smith</strong> -->
                         </span>
                         <!-- <span class="user-role">Administrator</span>
@@ -201,13 +212,13 @@ text-align: justify;
                                     
                                 </ul>
                             </div> -->
-                        </li>
-                        <li class="sidebar-dropdown">
+                        <!-- </li> -->
+                       <!--  <li class="sidebar-dropdown">
                             <a href="notificacao.php">
                                 <i class="fa fa-clock-o"></i>
                                 <span>Notificação</span>
                                 <span class="badge badge-pill badge-primary">6</span>
-                            </a>
+                            </a> -->
                            <!--  <div class="sidebar-submenu">
                                 <ul>
                                     <li><a href="#">Notificação - 1</a></li>
@@ -229,12 +240,12 @@ text-align: justify;
                             </a>
                         </li>
                         
-                        <li class="sidebar-dropdown">
+                        <!-- <li class="sidebar-dropdown">
                             <a href="blog.php">
                                 <i class="fa fa-th"></i>
                                 <span>Blog</span>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <!-- sidebar-menu  -->

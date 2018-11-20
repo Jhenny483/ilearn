@@ -34,7 +34,7 @@ top:-40px;
     <div class="row " style="background-color: ;">
 <?php 
 
-    $seguidores = "SELECT nicknameSeguidor FROM seguidor WHERE idSeguido = '$usr'";
+    $seguidores = "SELECT nicknameSeguidor,idSeguido, idSeguidor FROM seguidor WHERE idSeguido = '$usr'";
     $banco->executarSQL($seguidores);
     $resBusca = $banco->lerResultados();
 
@@ -49,7 +49,7 @@ top:-40px;
   <div class="card-body">
     <h5 class="card-title"><?=$amigo['nicknameSeguidor'];?></h5>
     
-    <a href="perfilOutroUsuario.php" src="" class="btn btn-primary">Ver amigo</a>
+    <a href="perfilOutroUsuario.php?idUsu=<?=$amigo['idSeguidor'];?>" src="" class="btn btn-primary">Ver amigo</a>
   </div>
 </div>
        

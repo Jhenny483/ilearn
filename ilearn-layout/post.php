@@ -3,7 +3,7 @@ include "superior.php";
 // session_start();
 require_once 'bancoDeDados.php';
 
- $sql = "SELECT textoPublicacao, emailUsuario, idUsuario, idPublicacao FROM publicacao
+ $sql = "SELECT textoPublicacao, emailUsuario, idUsuario, idPublicacao, nicknameUsuario FROM publicacao
              INNER JOIN usuario ON publicacao.idUsuarioPublicacao = usuario.idUsuario WHERE idPublicacao = '{$_GET['idPub']}' ORDER BY idPublicacao DESC";
 
     $banco = new BancoDeDados();
@@ -23,43 +23,49 @@ require_once 'bancoDeDados.php';
                                 <img src="assets/img/avatar.png" class="rounded-circle" alt="">
                             </div>
                             <div class="nomeAvatarMensagem">
-                                <p class="text-preto"><?=$pub['emailUsuario'];?><br>compartilhado em 00/00/0000</p>
+                                <p class="text-preto"><?=$pub['nicknameUsuario'];?>
+                                <!-- <br>compartilhado em 00/00/0000</p> -->
                             </div>
                         </a>
                     </div>
                     <div class="card-body">
                         <div class="card-text img text-post">
-                            <p>
+                            <p style="font-size: 20px;">
                                <?=$pub['textoPublicacao'];?> 
                             </p>
                         </div>
                     </div>
                     <div class="card fotoPost">
                                            </div>
-                    <div class="botaoMensagem cinza-claro2 py-2">
-                        <button class="btn btn-primary botao"><i class="fa fa-share"></i></button>
-                        <button class="btn btn-primary botao"><i class="fa fa-thumbs-up"></i></button>
-                        <p class="ml-4 mt-1">10 curtidas </p>
-                        <p class=" mt-1"> 10 Comentarios</p>
-                    </div>
-
             <?php 
-                            $coment = "SELECT idComentario,comentarioPublicado, emailUsuario, idUsuario, idPublicacao FROM comentario 
+                            $coment = "SELECT idComentario,comentarioPublicado, emailUsuario, idUsuario, idPublicacao, nicknameUsuario FROM comentario 
                                 INNER JOIN publicacao ON comentario.idPublicacaoComentada = publicacao.idPublicacao 
                                 INNER JOIN usuario ON comentario.idComentador = usuario.idUsuario WHERE publicacao.idPublicacao = '{$_GET['idPub']}' ORDER BY idComentario ASC"; 
                         $banco->executarSQL($coment);
                         $resC = $banco->lerResultados();
 
+                        $idCom = count($resC);?>
+
+                    <div class="botaoMensagem cinza-claro2 py-2">
+                        <!-- <button class="btn btn-primary botao"><i class="fa fa-share"></i></button> -->
+                        <!-- <button class="btn btn-primary botao"><i class="fa fa-thumbs-up"></i></button> -->
+                        <!-- <p class="ml-4 mt-1">10 curtidas </p> -->
+                        <p class=" mt-1"> <?php echo $idCom;?> Comentarios</p>
+                    </div>
+
+<?php
+
                             foreach ($resC as $com) { ?>
                     
                     <div class="mensagemPostResposta">
                         <div class="avatarMensagem">
-                            <a href="coordenador.php"><img src="assets/img/avatar.png" class="rounded-circle" alt=""></a>
+                            <a href="coordenador.php">
+                                <img src="assets/img/avatar.png" class="rounded-circle" alt=""></a>
                         </div>
                         <div class="nomeAvatarMensagemResposta">
                             <a href="coordenador.php">
-                                <p class="text-preto"><?=$com['emailUsuario'];?> 
-                                <br> Compartilhado em 00/00/0000
+                                <p class="text-preto"><?=$com['nicknameUsuario'];?> 
+                                <!-- <br> Compartilhado em 00/00/0000 -->
                                 </p>
                             </a>
                         </div>
