@@ -1,0 +1,170 @@
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  -webkit-border-radius: 16px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #d3cfcf;
+  -webkit-border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  height: 5px;
+  background-color: #666;
+  -webkit-border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  width: 5px;
+  background-color: #666;
+  -webkit-border-radius: 3px;
+}
+
+
+.titulo{
+    text-align: center;
+}
+.titulo h1{
+    border-bottom: 2px solid black;
+    width:  30%;
+    margin: 0 auto 30px auto;
+}
+
+.verTudo{
+    background: rgba(255, 0, 0, 0.39);
+}
+
+
+/*   INDEX  */
+
+.caixaPublicacao{
+    width: 100%;
+    height: 300px;    
+/*    margin-top: 50px;*/
+}
+
+.caixaComentario{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.fotoPerfilComentario{
+    width: 20%;
+    float: left;
+}
+
+.fotoPerfilComentario img{
+    width: 60%;
+    margin: 0 auto;
+}
+.comentario{
+    width: 80%;
+    float: left;
+}
+
+.comentario p{
+    float: left;
+    margin: 0 auto;
+}
+
+.caixaComentarioDoComentario{
+    width: 70%;
+    margin: 0 auto;
+}
+
+.menu{
+/*
+    background: #343a40;
+    top: 0;
+    left: 0;
+    position: fixed;
+*/
+    
+}
+
+.post{
+    width: 100%;
+    text-align: center;
+}
+
+.post img{
+    width: 30%;
+}
+
+.comentarioCaixa{
+    width: 50%;
+    float: left;
+    background: red;
+}
+
+.comentarioCaixa textarea{
+    float: left;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.comentarioCaixaBtn {
+    width: 20%;
+    float: left;
+}
+
+.comentarioCaixaBtn button{
+    float: left;
+    margin: 0 auto;
+/*    width: 100%;*/
+}
+
+
+/*topo*/
+
+
+
+
+/*   PERFIL */
+
+
+.bannerUser{
+    width: 100%;
+    height: 200px;
+}
+
+.bannerUser img{
+    width: 100%;
+    height: 200px;
+}
+
+.fotoUser{
+    width: 30%;
+    position: relative;
+    top: -50px;
+    left: 50px;
+}
+
+.fotoUser img{
+    width: 100%;
+}
+
+.caixaInformacaoUsuario{
+    width: 90%;
+    overflow: hidden;
+    margin: 0 auto;
+    background: #f5f5f5;
+    padding: 20px;
+    border: 1px solid #d0cccc;
+}
+
+/*  NOTIFICACAO */
+
+.caixaNotificacao{
+    width:100%;
+}
+
+.linhaNotificacao{
+    width:70%;
+    margin: 0 auto;
+    text-align: center;
+}
+.linhaNotificacao p{
+   margin: 20px auto;
+}
