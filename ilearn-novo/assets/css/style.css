@@ -1,3 +1,40 @@
+/*  css  */
+
+.text-post{
+    margin-left: 56px!important;
+    
+    
+}
+
+.avatarMensagem {
+    width: 14%!important;
+    
+}
+
+
+.avatarMensagem img {
+    width: 60px!important;
+    margin-left: 60px!important;
+    
+}
+
+.fazerPost {
+    margin: 5px 0px 0px 0px!important;
+}
+
+.fotoInserir{
+    margin-top: 30px!important;
+}
+/* fim - css */
+
+
+
+
+
+
+
+
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
